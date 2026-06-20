@@ -1,6 +1,12 @@
 # Bot Security News
 
-Daily Python digest for cybersecurity updates. It sends only strict urgent RCE/exploited items to Telegram, and publishes the rest into a simple GitHub Pages HTML report.
+Daily Python digest for cybersecurity updates. It sends only strict urgent RCE/exploited items to Telegram, and publishes the full report to a GitHub Pages portal.
+
+Every time the bot runs, it:
+1. Generates a daily report under `docs/reports/YYYY-MM-DD.html`.
+2. Updates `docs/reports.json` with report metadata (counts, dates).
+3. Generates a premium dark-themed landing page menu in `docs/index.html` displaying all available reports.
+4. **Automatically commits and pushes** the updated files to the configured Git remote.
 
 ## Setup
 
@@ -46,13 +52,25 @@ The default SQLite database is `data/security_news.sqlite3`.
 
 ## Scheduling
 
-Windows Task Scheduler example:
+To automatically register the daily scheduler to run at 8:00 AM on your system, run:
+
+```powershell
+python setup_scheduler.py
+```
+
+The script will automatically detect your OS:
+* **Windows**: Registers a task named `BotSecurityNews` in Windows Task Scheduler.
+* **Linux/macOS**: Adds a daily entry to your user `crontab`.
+
+### Manual Scheduling (Fallback)
+
+Windows Task Scheduler command:
 
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -Command "cd D:\Code\botSecurityNews; .\.venv\Scripts\bot-security-news.exe collect"
 ```
 
-Linux cron example:
+Linux cron entry:
 
 ```cron
 15 8 * * * cd /opt/botSecurityNews && ./.venv/bin/bot-security-news collect >> logs/cron.log 2>&1
@@ -66,7 +84,7 @@ Telegram urgent details are sent only when all of these are true:
 - The item mentions RCE or code execution.
 - The item has exploitation evidence, either CISA KEV or active exploitation wording.
 
-The HTML report includes all collected items. The page intentionally stays simple: one scrollable list of bordered news blocks.
+The HTML report includes all collected items. The landing page `index.html` displays a historical overview of all generated digests, and each daily report features individual detailed security cards.
 
 An item gets signal labels when any of these is true:
 
@@ -74,3 +92,4 @@ An item gets signal labels when any of these is true:
 - CVSS score is at least `8.0`.
 - EPSS probability is at least `0.5`.
 - RSS title/summary contains configured incident keywords such as `breach`, `ransomware`, `zero-day`, or `exploited`.
+
