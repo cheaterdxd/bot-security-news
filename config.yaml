@@ -1,0 +1,51 @@
+lookback_hours: 24
+database_path: data/security_news.sqlite3
+http_timeout_seconds: 30
+
+risk:
+  cvss_min: 8.0
+  epss_min: 0.5
+  urgent_cvss_min: 9.0
+  rce_keywords:
+    - remote code execution
+    - rce
+    - arbitrary code execution
+    - code execution
+    - execute arbitrary code
+  exploitation_keywords:
+    - exploited in the wild
+    - active exploitation
+    - actively exploited
+    - under active exploitation
+    - exploited for
+    - exploited to
+  rss_keywords:
+    - breach
+    - breached
+    - data leak
+    - ransomware
+    - zero-day
+    - zeroday
+    - exploited
+    - exploit
+    - hacked
+    - malware
+    - supply chain
+    - credential
+    - vulnerability
+
+rss_feeds:
+  - name: The Hacker News
+    url: https://feeds.feedburner.com/TheHackersNews
+  - name: BleepingComputer
+    url: https://www.bleepingcomputer.com/feed/
+  - name: KrebsOnSecurity
+    url: https://krebsonsecurity.com/feed/
+  - name: SecurityWeek
+    url: https://www.securityweek.com/feed/
+
+github_pages:
+  remote_url: https://github.com/cheaterdxd/bot-security-news.git
+  base_url: https://cheaterdxd.github.io/bot-security-news
+  branch: main
+  docs_dir: docs
