@@ -27,7 +27,15 @@ def test_generate_html_report_writes_latest_and_archive_and_escapes_content(tmp_
     assert report.latest_path.exists()
     assert report.archive_path.exists()
     assert report.archive_url == "https://example.github.io/security-news/reports/2026-06-20.html"
-    html = report.latest_path.read_text(encoding="utf-8")
+    
+    # Assert escaping in the actual daily report archive path
+    html = report.archive_path.read_text(encoding="utf-8")
     assert "<script>alert(1)</script>" not in html
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in html
     assert "&lt;b&gt;breach&lt;/b&gt;" in html
+
+    # Assert the index landing page references the report
+    index_html = report.latest_path.read_text(encoding="utf-8")
+    assert "reports/2026-06-20.html" in index_html
+    assert "June 20, 2026" in index_html
+
