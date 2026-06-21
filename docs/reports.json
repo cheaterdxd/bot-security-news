@@ -5,5 +5,12 @@
     "urgent_count": 0,
     "cve_count": 176,
     "news_count": 20
+  },
+  "2026-06-21": {
+    "date": "2026-06-21",
+    "total_count": 56,
+    "urgent_count": 1,
+    "cve_count": 53,
+    "news_count": 3
   }
 }
