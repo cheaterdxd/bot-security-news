@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security News Report - 2026-06-22</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #0b0f19 100%);
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --urgent: #f43f5e;
+      --urgent-glow: rgba(244, 63, 94, 0.25);
+      --success: #10b981;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      background-image: var(--bg-gradient);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      width: 100%;
+    }
+    
+    .nav-bar {
+      margin-bottom: 40px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .back-link:hover {
+      color: var(--accent);
+    }
+    
+    header {
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin: 0 0 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    
+    .meta {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin: 0;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
+      overflow-wrap: anywhere;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .card.urgent {
+      border-left: 4px solid var(--urgent);
+      background: linear-gradient(to right, rgba(244, 63, 94, 0.03), rgba(17, 24, 39, 0.7));
+      box-shadow: 0 4px 20px -2px var(--urgent-glow);
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    
+    .badge-default {
+      background: rgba(148, 163, 184, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    
+    .badge-urgent {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fda4af;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+    
+    .badge-cve {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .badge-kev {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .badge-cvss {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .badge-epss {
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+    
+    .card-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .card-meta strong {
+      color: #cbd5e1;
+    }
+    
+    p.summary {
+      line-height: 1.6;
+      color: #cbd5e1;
+      font-size: 14.5px;
+      margin: 16px 0;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border-left: 2px solid var(--accent);
+    }
+    
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+      transition: color 0.2s ease;
+    }
+    
+    .source-link:hover {
+      color: #818cf8;
+      text-decoration: underline;
+    }
+    
+    .no-items {
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="nav-bar">
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Reports Portal
+      </a>
+    </div>
+    
+    <header>
+      <h1>Security News Report</h1>
+      <p class="meta">Digest generated for <strong>June 22, 2026</strong></p>
+    </header>
+    
+    <div class="cards-list">
+      <article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>AryStinger botnet infected thousands of D-Link routers worldwide</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-06-21T14:14:22+00:00</div>
+    <div><strong>Reasons:</strong> keyword: malware</div>
+  </div>
+  <p class="summary">A previously undocumented malware botnet named AryStinger has compromised more than 4,000 outdated routers to turn them into proxies for malicious traffic. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/arystinger-botnet-infected-thousands-of-d-link-routers-worldwide/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+    </div>
+  </main>
+</body>
+</html>
