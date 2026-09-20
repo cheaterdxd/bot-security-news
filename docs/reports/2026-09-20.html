@@ -1,0 +1,2015 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security News Report - 2026-09-20</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #0b0f19 100%);
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --urgent: #f43f5e;
+      --urgent-glow: rgba(244, 63, 94, 0.25);
+      --success: #10b981;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      background-image: var(--bg-gradient);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      width: 100%;
+    }
+    
+    .nav-bar {
+      margin-bottom: 40px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .back-link:hover {
+      color: var(--accent);
+    }
+    
+    header {
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin: 0 0 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    
+    .meta {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin: 0;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
+      overflow-wrap: anywhere;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .card.urgent {
+      border-left: 4px solid var(--urgent);
+      background: linear-gradient(to right, rgba(244, 63, 94, 0.03), rgba(17, 24, 39, 0.7));
+      box-shadow: 0 4px 20px -2px var(--urgent-glow);
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    
+    .badge-default {
+      background: rgba(148, 163, 184, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    
+    .badge-urgent {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fda4af;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+    
+    .badge-cve {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .badge-kev {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .badge-cvss {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .badge-epss {
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+    
+    .card-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .card-meta strong {
+      color: #cbd5e1;
+    }
+    
+    p.summary {
+      line-height: 1.6;
+      color: #cbd5e1;
+      font-size: 14.5px;
+      margin: 16px 0;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border-left: 2px solid var(--accent);
+    }
+    
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+      transition: color 0.2s ease;
+    }
+    
+    .source-link:hover {
+      color: #818cf8;
+      text-decoration: underline;
+    }
+    
+    .no-items {
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="nav-bar">
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Reports Portal
+      </a>
+    </div>
+    
+    <header>
+      <h1>Security News Report</h1>
+      <p class="meta">Digest generated for <strong>September 20, 2026</strong></p>
+    </header>
+    
+    <div class="cards-list">
+      <article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-84434</span><span class="badge badge-cvss">CVSS 9.8</span><span class="badge badge-epss">EPSS 0.7%</span>
+  </div>
+  <h2>CVE-2026-84434</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:15.573000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.8 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">The Gravity Forms plugin for WordPress is vulnerable to Arbitrary File Upload in all versions up to, and including, 3.1.0.4 via the upload_file function. This is due to a mismatch between the field validation pipeline and the file persistence pipeline, where hidden file upload fields bypass extension validation and a rejected file&#x27;s intact upload state is later passed to upload_file() without re-validation. This makes it possible for unauthenticated attackers to upload files that may be executable, which makes remote code execution possible. Exploitation requires the targeted form to contain a File Upload field with its Visibility set to &#x27;Hidden&#x27;; the vulnerability is reachable by unauthenticated attackers on any publicly accessible form meeting this condition.</p>
+  <a href="https://docs.gravityforms.com/gravityforms-change-log/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-86591</span><span class="badge badge-cvss">CVSS 9.8</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-86591</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.063000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.8 CRITICAL</div>
+  </div>
+  <p class="summary">The Botiga Pro WordPress plugin before 1.6.5 does not perform any authorisation checks on one of its REST routes, allowing unauthenticated users to update arbitrary WordPress options with arbitrary values, which could lead to privilege escalation and a full site takeover.
+The same route also allows unauthenticated users to store arbitrary web scripts which are then executed on every page of the site&#x27;s front end, as well as to move arbitrary posts to the trash.</p>
+  <a href="https://wpscan.com/vulnerability/e2389a60-16c2-4750-b85e-a82b91390b30/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93985</span><span class="badge badge-cvss">CVSS 9.4</span>
+  </div>
+  <h2>CVE-2026-93985</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:41.873000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.4 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">OpenPanel js-runtime through commit bad75bdd contains a sandbox escape vulnerability in the JavaScript webhook template validator that fails to block computed member access to constructor chains. Attackers with project write access can create webhook templates using computed property notation to access Function constructor and execute arbitrary code in the worker process.</p>
+  <a href="https://github.com/Openpanel-dev/openpanel/security/advisories/GHSA-6f7h-cvp6-w9w5" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93741</span><span class="badge badge-cvss">CVSS 9.3</span><span class="badge badge-epss">EPSS 0.6%</span>
+  </div>
+  <h2>CVE-2026-93741</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T23:16:30.557000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">A security flaw has been discovered in Totolink A3002MU Hh-B20211125.1046. Affected by this vulnerability is the function formWlWds of the file /boafrm/formWlWds. The manipulation of the argument submit-url results in buffer overflow. It is possible to launch the attack remotely. The exploit has been released to the public and may be used for attacks.</p>
+  <a href="https://github.com/SunnyYANGyaya/cuicuishark-sheep-fishIOT/blob/main/ToTolink/A3002MU/bof-formWlWds.md" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92229</span><span class="badge badge-cvss">CVSS 9.1</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-92229</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:17.040000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">The The Forminator Forms – Contact Form, Payment Form &amp; Custom Form Builder plugin for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 1.57.2. This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode. This makes it possible for unauthenticated attackers to execute arbitrary shortcodes.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/forminator/tags/1.57.2/library/abstracts/abstract-class-front-action.php#L127" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89274</span><span class="badge badge-cvss">CVSS 9.1</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-89274</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16.587000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">The WP Recipe Maker plugin for WordPress is vulnerable to Arbitrary Shortcode Execution in all versions up to, and including, 10.8.1. The vulnerability exists because `WPRM_Metadata::sanitize_metadata()` recursively calls `do_shortcode()` on every scalar field of the recipe&#x27;s structured metadata array — including the `reviewBody` field, which is populated verbatim from the `comment_content` of approved `wprm-comment-rating` comments — without sanitizing or stripping shortcode tokens before execution; the subsequent `wp_strip_all_tags()` and `strip_shortcodes()` calls operate only on the output string after execution has already fully occurred, providing no protection against server-side shortcode invocation. This makes it possible for unauthenticated attackers to execute arbitrary registered WordPress shortcodes server-side on every recipe page render, causing shortcode output — such as attachment captions, private post fields, or other data exposed by installed shortcodes — to be embedded in the page&#x27;s JSON-LD `reviewBody` metadata and disclosed to all visitors who load the recipe page. Successful exploitation requires the attacker&#x27;s rated comment to pass the site&#x27;s comment approval threshold, either via auto-approval or moderator action, before the injected shortcode begins executing on page loads.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-recipe-maker/tags/10.8.1/includes/public/class-wprm-metadata.php#L1028" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-4327</span><span class="badge badge-cvss">CVSS 8.8</span><span class="badge badge-epss">EPSS 0.7%</span>
+  </div>
+  <h2>CVE-2026-4327</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.887000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH, RCE indicator</div>
+  </div>
+  <p class="summary">The The Welcomizer plugin for WordPress is vulnerable to Remote Code Execution in all versions up to and including 2.8.1. This is due to missing authorization checks on the twiz_ajax_callback AJAX action&#x27;s &#x27;savesection&#x27; handler combined with the use of eval() to execute user-supplied &#x27;custom logic&#x27; code on the frontend. The AJAX handler at twiz-ajax.php verifies a nonce but performs no current_user_can() capability check for the ACTION_SAVE_SECTION case. Furthermore, the nonce is exposed to any authenticated user through the directly-accessible twiz-ajax.js.php file which loads WordPress and outputs the nonce. This makes it possible for authenticated attackers, with Subscriber-level access and above, to inject arbitrary PHP code via the twiz_custom_logic POST parameter when saving a section with output choice &#x27;twiz_logic_output&#x27;.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/the-welcomizer/tags/2.8.1/includes/twiz.menu.class.php#L265" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92807</span><span class="badge badge-cvss">CVSS 8.8</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-92807</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:17.723000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH, RCE indicator</div>
+  </div>
+  <p class="summary">The Save as PDF Plugin by PDFCrowd plugin for WordPress is vulnerable to Arbitrary Function Invocation in all versions up to, and including, 4.6.1 via the `pdf_created_callback` shortcode attribute. The `eval_shortcode()` function copies any non-`button_`/non-`email_` shortcode attribute verbatim into a custom options array without sanitization, allowlist enforcement, or capability checks, and `create_button()` AES-encrypts that array — including the attacker-supplied callback value — and embeds the resulting blob in the rendered button HTML; when the blob is later POSTed to the unauthenticated `wp_ajax_nopriv_save_as_pdf_pdfcrowd` endpoint, `save_as_pdf_pdfcrowd()` decrypts it and invokes `$options[&#x27;pdf_created_callback&#x27;]` as a PHP callable at line 1722 with no `is_callable()` guard, no allowlist, and no capability check. This makes it possible for authenticated attackers, with Contributor-level access and above, to invoke arbitrary PHP functions or static class methods with plugin option data as the sole argument, enabling disclosure of the site&#x27;s stored PDFCrowd API key and username or further server-side abuse. Note that the encryption boundary does not mitigate this vector because the server itself encrypts the attacker-chosen callback during shortcode rendering, supplying any authenticated Contributor with a cryptographically valid blob that any unauthenticated visitor can subsequently replay to trigger invocation.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/save-as-pdf-by-pdfcrowd/tags/4.6.1/public/class-save-as-pdf-pdfcrowd-public.php#L157" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-85680</span><span class="badge badge-cvss">CVSS 8.8</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-85680</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.960000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH</div>
+  </div>
+  <p class="summary">The Ultimate Member  WordPress plugin before 2.13.1 does not escape a value derived from user supplied profile names before outputting it in the page title, and decodes HTML entities in it after its own sanitisation has already run, allowing unauthenticated attackers who register an account to store JavaScript that will execute when any visitor, including an administrator, views their profile.</p>
+  <a href="https://wpscan.com/vulnerability/a49b734f-2244-4d6f-8912-b4ce6ba9eb0f/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-88824</span><span class="badge badge-cvss">CVSS 8.8</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-88824</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.273000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH</div>
+  </div>
+  <p class="summary">The Master Blocks  WordPress plugin before 1.5.0 does not have authorisation on one of its REST routes, allowing unauthenticated users to update its settings, including a value that is output unescaped in the admin area, leading to Stored XSS that executes in the session of any administrator visiting a wp-admin page.</p>
+  <a href="https://wpscan.com/vulnerability/898fda0a-4d27-4def-ae6f-35bf25a8ae8d/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93990</span><span class="badge badge-cvss">CVSS 8.7</span>
+  </div>
+  <h2>CVE-2026-93990</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.203000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.7 HIGH</div>
+  </div>
+  <p class="summary">Expat through 2.8.4 fails to validate low surrogates following high surrogates in UTF-16 input, allowing malformed UTF-16 sequences to be accepted. Attackers can craft UTF-16 encoded XML with lone high surrogates that consume following code units, hiding markup characters from the parser and enabling XML injection attacks.</p>
+  <a href="https://github.com/libexpat/libexpat" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93742</span><span class="badge badge-cvss">CVSS 8.6</span><span class="badge badge-epss">EPSS 1.9%</span>
+  </div>
+  <h2>CVE-2026-93742</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.740000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.6 HIGH</div>
+  </div>
+  <p class="summary">A weakness has been identified in Totolink A3002MU Hh-B20211125.1046. Affected by this issue is the function formWsc of the file /boafrm/formWsc. This manipulation of the argument localPin causes command injection. The attack can be initiated remotely. The exploit has been made available to the public and could be used for attacks.</p>
+  <a href="https://github.com/SunnyYANGyaya/cuicuishark-sheep-fishIOT/blob/main/ToTolink/A3002MU/rce-formWsc.md" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-88926</span><span class="badge badge-cvss">CVSS 8.6</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-88926</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.377000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.6 HIGH</div>
+  </div>
+  <p class="summary">The VikRentItems Flexible Rental Management System WordPress plugin before 1.2.4 does not sanitise and escape some of its parameters before using them in SQL statements, allowing unauthenticated users to perform SQL injection attacks.</p>
+  <a href="https://wpscan.com/vulnerability/da39827b-f087-48f3-baa9-759709a3767e/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93993</span><span class="badge badge-cvss">CVSS 8.6</span>
+  </div>
+  <h2>CVE-2026-93993</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.673000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.6 HIGH, RCE indicator</div>
+  </div>
+  <p class="summary">Mistral Vibe before 2.25.5 contains a remote code execution vulnerability in the worktree creation process that executes git hooks before trust validation. Attackers can supply a repository with a crafted post-checkout hook that executes arbitrary shell commands with the privileges of the user running Vibe.</p>
+  <a href="https://github.com/mistralai/mistral-vibe" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93991</span><span class="badge badge-cvss">CVSS 8.3</span>
+  </div>
+  <h2>CVE-2026-93991</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.360000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.3 HIGH</div>
+  </div>
+  <p class="summary">Argo Workflows versions 4.1.0 through 4.1.3 contain an authorization bypass vulnerability in ListArchivedWorkflows that fails to apply cluster-scoped access review when the metadata.namespace field selector uses the NotEquals operator. Attackers with namespace-scoped list permissions can use a negated namespace field selector to retrieve archived workflows from all other namespaces, exposing spec arguments, parameter values, and annotations.</p>
+  <a href="https://github.com/argoproj/argo-workflows" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-85658</span><span class="badge badge-cvss">CVSS 8.1</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-85658</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.770000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.1 HIGH, RCE indicator</div>
+  </div>
+  <p class="summary">The Paid Membership Plugin, Ecommerce, User Registration Form, Login Form, User Profile &amp; Restrict Content – ProfilePress plugin for WordPress is vulnerable to arbitrary shortcode execution in all versions up to, and including, 4.17.2 This is due to the software allowing users to execute an action that does not properly validate a value before running do_shortcode. This makes it possible for authenticated attackers, with subscriber-level access and above, to execute arbitrary shortcodes.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-user-avatar/tags/4.17.2/src/Classes/EditUserProfile.php#L337" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-86814</span><span class="badge badge-cvss">CVSS 8.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-86814</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.167000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.1 HIGH</div>
+  </div>
+  <p class="summary">The UsersWP  WordPress plugin before 1.5.10 does not verify that a social login provider has confirmed ownership of an email address before using it to resolve an existing account, allowing unauthenticated attackers to log in as any user, including administrators, whose email address they can assert through a provider account of their own.</p>
+  <a href="https://wpscan.com/vulnerability/f606cf7b-cef8-4b2c-819a-6d3e6adeacee/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-85574</span><span class="badge badge-cvss">CVSS 8.0</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-85574</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.860000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.0 HIGH</div>
+  </div>
+  <p class="summary">The Unbounce Landing Pages WordPress plugin before 1.1.5 does not perform any authorisation check when updating the configuration its front-end proxy relies on, allowing any authenticated user, such as a subscriber, to point that proxy at a host they control and have arbitrary content served from the site&#x27;s own origin.</p>
+  <a href="https://wpscan.com/vulnerability/f13143dc-5674-4e9f-8aa0-8d22df7a7379/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-87909</span><span class="badge badge-cvss">CVSS 7.5</span><span class="badge badge-epss">EPSS 0.5%</span>
+  </div>
+  <h2>CVE-2026-87909</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:15.853000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The WP Photo Album Plus plugin for WordPress is vulnerable to Remote Code Execution in all versions via the wppa_image_magick function. This is due to insufficient sanitization of the multipart upload filename before concatenation into an ImageMagick command string executed via exec(), with only escapeshellcmd() applied to the whole command rather than quoting individual arguments. This makes it possible for authenticated attackers, with subscriber-level access and above, to execute code on the server. escapeshellcmd() escapes shell metacharacters but does not prevent argument injection because spaces remain as argument separators, and the filename sanitization applied at the database layer is never applied to the physical temporary file path used for ImageMagick processing.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-photo-album-plus/trunk/wppa-functions.php#L4837" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-1255</span><span class="badge badge-cvss">CVSS 7.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-1255</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.030000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The YS LeadGen plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 2.1.4 due to the &#x27;ysleadgen_get_captured_data&#x27; AJAX action being accessible to unauthenticated users. This makes it possible for unauthenticated attackers to retrieve all captured form submission data, including personally identifiable information (PII) such as names, email addresses, and message content submitted through YS LeadGen forms.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/ysleadgen/tags/1.1.1/app/Controllers/Ajax.php#L65" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92404</span><span class="badge badge-cvss">CVSS 7.5</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92404</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.790000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The MgoSync  WordPress plugin before 2.1.7 does not have authorization controls on one of its REST API endpoints, allowing unauthenticated users to retrieve the stored WooCommerce API credentials, including a read/write consumer key and secret, from a configured site.</p>
+  <a href="https://wpscan.com/vulnerability/342e79ec-cfe6-43f3-8598-bf2b83aff2a1/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94056</span><span class="badge badge-cvss">CVSS 7.5</span>
+  </div>
+  <h2>CVE-2026-94056</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:11.113000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Exim before 4.100.1, when Proxy-Protocol is used with an attacker-controlled proxy, allows attackers to read certain uninitialized data from stack memory.</p>
+  <a href="https://lists.exim.org/lurker/message/20260918.121220.0f87338e.en.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15664</span><span class="badge badge-cvss">CVSS 7.2</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-15664</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.763000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Quill Forms | Conversational Multi Step Forms, Surveys &amp; quizzes plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Multiple Choice &#x27;Other&#x27; Value in all versions up to, and including, 5.7.1 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The injected script executes in the context of the WordPress admin results view, making administrators the primary target when reviewing submitted form entries.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/quillforms/tags/5.6.1/includes/abstracts/class-block-type.php#L402" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-13354</span><span class="badge badge-cvss">CVSS 7.2</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-13354</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:13.553000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Asset CleanUp: Page Speed Booster plugin for WordPress is vulnerable to Stored Cross-Site Scripting via Comment Content in all versions up to, and including, 1.4.0.5 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. This is only exploitable on instances where combine_loaded_css has been enabled.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-asset-clean-up/tags/1.4.0.3/classes/OptimiseAssets/OptimizeCss.php#L579" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-76554</span><span class="badge badge-cvss">CVSS 7.2</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-76554</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.540000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP Import Export Lite WordPress plugin before 3.9.35 does not verify that the user running an import is permitted to create or modify user accounts and assign roles, allowing users granted a delegated WP Import Export Lite WordPress plugin before 3.9.35 permission, who cannot otherwise manage users, to create administrator accounts and to overwrite the credentials and role of existing accounts, including administrators.</p>
+  <a href="https://wpscan.com/vulnerability/e28c78be-e2f7-4580-9f16-488955914be3/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-76790</span><span class="badge badge-cvss">CVSS 7.1</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-76790</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.650000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Estatik Real Estate Plugin WordPress plugin before 4.3.5 does not sanitise and escape several values decoded from a request parameter before reflecting them back in an unauthenticated AJAX response, leading to Reflected Cross-Site Scripting.</p>
+  <a href="https://wpscan.com/vulnerability/b722c7e9-7c8b-4510-85af-075b1bba9d66/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93988</span><span class="badge badge-cvss">CVSS 7.1</span>
+  </div>
+  <h2>CVE-2026-93988</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:09.890000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">QloApps through 1.7.0 contains a path traversal vulnerability in the getEmailHTML action of admin/ajax.php that allows authenticated back-office users to read arbitrary files. Attackers can supply relative path sequences in the email parameter to bypass directory restrictions and access sensitive files including database credentials and configuration data.</p>
+  <a href="https://github.com/Qloapps/QloApps" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93992</span><span class="badge badge-cvss">CVSS 7.0</span>
+  </div>
+  <h2>CVE-2026-93992</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.517000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Gopeed through 2.0.0-beta.3 contains a path traversal vulnerability in archive extraction that allows attackers to write arbitrary files outside the extraction directory. Attackers can craft malicious archives with entries containing directory traversal sequences that bypass validation, enabling file write operations when users download and extract archives with AutoExtract enabled.</p>
+  <a href="https://github.com/GopeedLab/gopeed" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94054</span><span class="badge badge-cvss">CVSS 7.0</span>
+  </div>
+  <h2>CVE-2026-94054</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.827000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Exim before 4.100.1, when Proxy-Protocol is used with an attacker-controlled proxy, has an out-of-bounds write.</p>
+  <a href="https://lists.exim.org/lurker/message/20260918.121220.0f87338e.en.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93984</span><span class="badge badge-cvss">CVSS 6.9</span>
+  </div>
+  <h2>CVE-2026-93984</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:41.723000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">OpenPanel tracking API through commit bad75bddc74d12d36cfb843f4531d3b830a8d994 fails to verify client secret cryptographic hash before authorizing revenue events and bot filtering. Attackers with only a public client ID can supply arbitrary dummy secrets to inject forged revenue metrics and bypass bot detection filters.</p>
+  <a href="https://github.com/Openpanel-dev/openpanel/security/advisories/GHSA-956w-65qh-w3jh" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94000</span><span class="badge badge-cvss">CVSS 6.6</span>
+  </div>
+  <h2>CVE-2026-94000</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T08:17:08.763000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">A flaw was found in the Admin REST API of Keycloak, an open-source identity and access management solution. The issue occurs in the group-membership endpoints where the system fails to check if a group grants administrative privileges before allowing a user to be added. This allows a delegated administrator with limited permissions to add themselves to a high-privilege group, potentially gaining full control over the entire realm.</p>
+  <a href="https://access.redhat.com/security/cve/CVE-2026-94000" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89334</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-89334</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16.893000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Better Messages – Chat Rooms, Group Chat, Private Messages &amp; AI Chat Bots plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.15.33. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with custom-level access and above, to access the full message transcript, thread metadata, and user data of any chat-room thread without authentication. This is only exploitable when the chat room&#x27;s only_joined_can_read setting retains its default value of &#x27;0&#x27;.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/bp-better-messages/tags/2.15.33/inc/functions.php#L3533" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9855</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-9855</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:55.487000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Custom Field Template plugin for WordPress is vulnerable to generic SQL Injection via the &#x27;post_ID&#x27; parameter in all versions up to, and including, 2.7.8 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with contributor-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. The capability check via current_user_can(&#x27;edit_post&#x27;, $id) is bypassable because WordPress internally casts $id to an integer for the permission evaluation while the full unsanitized string is preserved and passed to the SQL sink, and a valid nonce — which is also required — can be legitimately obtained by any Contributor-level user from the post edit screen.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/custom-field-template/tags/2.7.7/custom-field-template.php#L105" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-13191</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-13191</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.050000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Create plugin for WordPress is vulnerable to generic SQL Injection via the &#x27;order_by&#x27; parameter in all versions up to, and including, 2.5.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with author-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. The REST endpoint permission callback defaults to the publish_posts capability, meaning any Author-level user or above can reach the vulnerable code path without any additional preconditions.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/mediavine-create/tags/2.5.2/lib/class-api-services.php#L191" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-1641</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-1641</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.330000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Wow Elements Addons for Elementor plugin for WordPress is vulnerable to Server-Side Request Forgery in all versions up to, and including, 1.11.2. This is due to the plugin passing user-controlled input from the &#x27;Changelog File&#x27; setting directly to the wp_remote_get function without adequate validation or sanitization of the URL. This makes it possible for authenticated attackers, with Contributor-level access and above, to make web requests to arbitrary locations originating from the web application and can be used to query and modify information from internal services.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wow-elements-addons-for-elementor/tags/1.5.6/includes/widgets/changelog.php#L786" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9232</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-9232</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:55.053000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Easy Appointments plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 3.12.27 via the handle_customers_ajax. This makes it possible for authenticated attackers, with contributor-level access and above, to extract the full customer dataset from the ea_customers table, including personally identifiable information such as names, email addresses, mobile numbers, dates of birth, and physical addresses.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/easy-appointments/tags/3.12.22/src/ajax.php#L115" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89333</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-89333</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16.743000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Tutor LMS – eLearning and online course solution plugin for WordPress is vulnerable to Insecure Direct Object Reference in all versions up to, and including, 4.0.8 via the &#x27;student_id&#x27; parameter due to missing validation on a user controlled key. This makes it possible for authenticated attackers, with subscriber-level access and above, to disclose the email address and Tutor profile phone number of arbitrary WordPress users, including Administrators, by iterating over user IDs via the student_id parameter.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/tutor/tags/4.0.8/classes/Template.php#L503" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-13200</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-13200</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.200000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Create plugin for WordPress is vulnerable to generic SQL Injection via the &#x27;order&#x27; parameter in all versions up to, and including, 2.5.3 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with author-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database. The vulnerable advanced-filter SQL branch is only entered when at least one of the following parameters is present in the request: linked_posts, created_after, created_before, missing_fields, post_id, a comma-separated type value, or exclude_type.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/mediavine-create/tags/2.5.2/lib/creations/class-creations-api.php#L329" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15760</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-15760</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:13.867000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Divi Essential plugin for WordPress is vulnerable to sensitive information exposure in versions up to, and including, 5.8.1 via the dnxte_get_database_tables and dnxte_get_database_data AJAX actions. The handlers  only conditionally verify a nonce (the check runs solely when the &#x27;nonce&#x27; POST parameter is present and can be trivially bypassed by omitting the parameter) and never call current_user_can() or otherwise enforce a capability. This makes it possible for authenticated attackers, with Subscriber-level access and above, to enumerate every table in the WordPress database and read up to a caller-controlled number of rows from any table — including wp_users (usernames, emails, hashed passwords), wp_usermeta (session tokens, secret keys), and wp_options (privileged settings, API keys, credentials stored by other plugins).</p>
+  <a href="https://www.divinext.com/divi-essential-changelog/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-84750</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-84750</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.753000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Ultra Addons for Contact Form 7 WordPress plugin before 3.5.51 does not validate the type or extension of files uploaded through one of its form fields, and stores them at a predictable public path with the attacker-chosen extension intact, allowing unauthenticated users to upload arbitrary files. The PHP handler shipped by default with the Debian and Ubuntu Apache packages maps .phar to PHP alongside .php and .phtml, so on that stack the uploaded file is executed and the issue leads to Remote Code Execution and full site takeover. Where the host routes only .php to the PHP handler, the same file is instead served from the site&#x27;s own origin with its script intact, leading to Stored Cross-Site Scripting.</p>
+  <a href="https://wpscan.com/vulnerability/44f68354-4be3-422f-9f94-af980b2ebc44/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92099</span><span class="badge badge-cvss">CVSS 6.5</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92099</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.583000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WPGraphQL Smart Cache WordPress plugin before 2.3.2 does not require authorisation or validate a caller-supplied query identifier before storing a persisted query from a request, allowing unauthenticated users to publish arbitrary query documents and claim query aliases before a site&#x27;s own frontend registers them.</p>
+  <a href="https://wpscan.com/vulnerability/3563529f-5050-4f92-9a3c-44ee850254bd/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94001</span><span class="badge badge-cvss">CVSS 6.5</span>
+  </div>
+  <h2>CVE-2026-94001</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T08:17:08.903000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">A flaw was found in the Admin REST API of Keycloak, an open-source identity and access management solution. The endpoint used for deleting user credentials does not correctly check for fine-grained reset-password permissions. This allows a delegated administrator, who should be restricted from resetting passwords, to delete a user&#x27;s password credentials, resulting in the user being unable to log in.</p>
+  <a href="https://access.redhat.com/security/cve/CVE-2026-94001" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-77820</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-77820</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T19:16:54.257000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WPComplete plugin for WordPress is vulnerable to Stored Cross-Site Scripting via &#x27;empty&#x27; Shortcode Attribute in all versions up to, and including, 2.9.9.0 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. This requires the premium version of the software in order to exploit. Please note this only affects the pro version.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wpcomplete/tags/2.9.5.7/includes/class-wpcomplete.php#L305" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-5400</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-5400</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.190000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Redux Framework plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the Media field filter values in versions up to, and including, 4.5.13 This is due to insufficient input sanitization of nested array values in the user_meta_save() function and unsafe output of filter CSS values in the render() function without proper escaping. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</p>
+  <a href="https://github.com/reduxframework/redux-framework/pull/4112/changes" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-5410</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-5410</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.307000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Redux Framework plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the spinner field in versions up to, and including, 4.5.13 This is due to insufficient input sanitization and output escaping. In the user_meta_save() function scalar values bypass the sanitization logic that only processes arrays, allowing the spinner field value to be stored in user meta without proper sanitization. Later, at line 56 of class-redux-spinner.php in the render() function, this value is rendered in an unquoted HTML attribute without escaping via &#x27;$data_string .= &#x27; data-val=&#x27; . $this-&gt;value;&#x27;. This makes it possible for authenticated attackers, with subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/redux-framework/tags/4.5.10/redux-core/inc/extensions/users/class-redux-extension-users.php#L1018" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-2422</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-2422</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.747000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP Composer – The Easiest Page Builder plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the &#x27;pbwp_raw_shortcode&#x27; shortcode in all versions up to, and including, 1.0.5. This is due to the shortcode handler decoding Base64-encoded content and outputting it directly without any sanitization or escaping. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The Base64 encoding allows the payload to bypass WordPress&#x27;s KSES content filtering at save time, since the encoded string contains no harmful HTML characters.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/page-builder-wp/tags/1.0.5/inc/global/wpc-helpers.php#L3578" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-1256</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-1256</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.163000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The YS LeadGen plugin for WordPress is vulnerable to authorization bypass and Stored Cross-Site Scripting via multiple AJAX endpoints in all versions up to, and including, 2.1.4 due to missing capability checks on popup management actions. This makes it possible for authenticated attackers, with Subscriber-level access and above, to create arbitrary popups and inject malicious JavaScript that executes when the popup is displayed, leading to Stored XSS.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/ysleadgen/tags/1.1.1/app/Controllers/Ajax.php#L36" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-13770</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-13770</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.333000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The AppMySite – WordPress &amp; WooCommerce Mobile App Builder (No-Code Android &amp; iOS App Maker) plugin for WordPress is vulnerable to Stored Cross-Site Scripting via save_ams_license_key AJAX Handler in all versions up to, and including, 3.15.3 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with Subscriber-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. The save_ams_license_key AJAX handler performs no capability check and no nonce verification, meaning any authenticated user with Subscriber-level access or above can invoke it to store the malicious payload.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/appmysite/tags/3.15.3/includes/class-ams-admin-functions.php#L34" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-8354</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-8354</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.583000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Gum Addon for Elementor plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the &#x27;pop_tag&#x27; parameter in all versions up to, and including, 1.3.15 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/gum-elementor-addon/tags/1.3.15/widgets/popover_btn.php#L726" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15098</span><span class="badge badge-cvss">CVSS 6.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-15098</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.487000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Real3D Flipbook Lite plugin for WordPress is vulnerable to Stored Cross-Site Scripting via the &#x27;lightboxtext&#x27; shortcode attribute (and other unsanitized attributes handled by on_shortcode()) in versions up to, and including, 5.1.1. This is due to insufficient input sanitization and output escaping in the on_shortcode() and print_global_options() functions: shortcode attribute values are copied verbatim into $this-&gt;flipbook_options and then emitted via wp_json_encode() inside a &lt;script type=&quot;application/json&quot;&gt; block without the JSON_HEX_TAG flag, allowing a literal &lt;/script&gt; byte sequence in the attribute value to break out of the JSON script context. Because WordPress&#x27;s shortcode_parse_atts() applies stripcslashes() to attribute values, an attacker can encode the breakout tag as \x3c/script\x3e\x3cscript\x3e…\x3c/script\x3e, which survives the wp_kses_post save-time filter applied to Contributor content (the escape bytes are safe text characters, not HTML tags) and is decoded to real angle brackets at render time. This makes it possible for authenticated attackers, with Contributor-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user (typically an Editor or Administrator previewing/moderating the pending post) accesses an injected page.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/real3d-flipbook-lite/tags/5.0/includes/Real3DFlipbook.php#L1224" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-82672</span><span class="badge badge-cvss">CVSS 6.3</span>
+  </div>
+  <h2>CVE-2026-82672</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T10:16:35.710000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Inconsistent Interpretation of HTTP Requests (&#x27;HTTP Request/Response Smuggling&#x27;) vulnerability in elixir-mint mint allows a malicious HTTP/1 server to desynchronize a strict intermediary and the Mint client on a pooled connection, enabling response-queue poisoning against subsequent requests that share the connection.
+
+Mint.HTTP1.Parse.chunk_size/1 in lib/mint/http1/parse.ex stops at the first non-hexadecimal byte of a chunked response&#x27;s chunk-size line and returns the remainder unexamined. Mint.HTTP1.decode_body/5 in lib/mint/http1.ex then discards every byte up to the CRLF with Parse.ignore_until_crlf/1, so the accepted grammar is a run of hex digits followed by arbitrary bytes, where RFC 9112 permits only a ;-introduced chunk extension. Lines such as 5ZZZZZ and 5 9 are accepted as chunk size 5, and 0ZZZZ is accepted as the terminating chunk that ends the message body. An RFC-strict intermediary rejects such a line while Mint accepts it, so the two disagree on chunk boundaries and on where the response ends.
+
+This issue affects mint: from 0.1.0 before 1.10.1.</p>
+  <a href="https://cna.erlef.org/cves/CVE-2026-82672.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-11608</span><span class="badge badge-cvss">CVSS 6.1</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-11608</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:50.633000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP Customer Reviews plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the &#x27;wpcr3_fname&#x27; parameter in all versions up to, and including, 3.7.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-customer-reviews/tags/3.7.7/include/templates/frontend_review_form_text_field.html#L13" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89081</span><span class="badge badge-cvss">CVSS 6.1</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-89081</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16.303000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Tutor LMS – eLearning and online course solution plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the &#x27;search&#x27; parameter in all versions up to, and including, 4.0.8 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/tutor/tags/4.0.7/classes/Dashboard.php#L282" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92967</span><span class="badge badge-cvss">CVSS 6.1</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-92967</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:18.717000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Pochipp plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the &#x27;keyword&#x27; parameter in versions up to, and including, 1.20.2. This is due to insufficient output escaping , which reads $_GET[&#x27;keyword&#x27;], applies only sanitize_text_field() (which strips tags but leaves double quotes intact) and interpolates the value directly into the value attribute of the search input via a PHP heredoc, without esc_attr(). This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user with upload_files capability (Author or above) into performing an action such as clicking on a specially crafted link to /wp-admin/media-upload.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/pochipp/tags/1.20.2/inc/thickbox.php#L10" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-87917</span><span class="badge badge-cvss">CVSS 6.1</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-87917</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.917000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The MC4WP: Mailchimp for WordPress plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via &#x27;data&#x27; Dynamic Content Tag in all versions up to, and including, 4.14.0 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/mailchimp-for-wp/tags/4.14.0/includes/class-dynamic-content-tags.php#L127" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15463</span><span class="badge badge-cvss">CVSS 6.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-15463</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.627000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The SSL Zen — SSL Certificate Installer &amp; HTTPS Redirects plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the &#x27;host&#x27; parameter in all versions up to, and including, 4.7.42 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. The vulnerability is only exploitable when in the system_requirements stage.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/ssl-zen/tags/4.7.41/ssl_zen/classes/class.ssl_zen_admin.php#L863" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-19860</span><span class="badge badge-cvss">CVSS 5.5</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-19860</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.417000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The JetFormBuilder — Dynamic Blocks Form Builder WordPress plugin before 3.6.5.3 does not sufficiently restrict which PHP functions can be used as a custom field-validation callback, relying on a blocklist that omits a file-deletion function, allowing users able to manage forms to cause arbitrary files on the server to be deleted. The deletion itself is carried out when the form is submitted, which requires no authentication.</p>
+  <a href="https://wpscan.com/vulnerability/d73d8d27-6dad-4a7f-bf51-f5fc18ebc81f/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92425</span><span class="badge badge-cvss">CVSS 5.5</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92425</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:34.100000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Hydra Booking — Appointment Scheduling &amp; Booking Calendar WordPress plugin before 1.2.4 does not perform object-level authorisation checks on several of its host-management operations, allowing users who hold its own administrator-assigned custom role to read, modify and permanently delete other hosts&#x27; records and the WordPress user accounts linked to them.</p>
+  <a href="https://wpscan.com/vulnerability/b6d64e8f-e52a-4286-bd78-15f7a31d876f/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9289</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-9289</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.917000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WordLift – AI powered SEO – Schema plugin for WordPress is vulnerable to Sensitive Information Exposure in all versions up to, and including, 3.54.10 via the JSON-LD REST API endpoints. This is due to the plugin registering the /wordlift/v1/jsonld/ routes (jsonld/{id}, jsonld/http/{item_id}, jsonld/post-meta/{meta_key}, jsonld/meta/{meta_key}, and jsonld/{post_type}/{post_name}) with a permission_callback of &#x27;__return_true&#x27; and the downstream converter retrieving the post via get_post() without verifying the post status or the requesting user&#x27;s capabilities. This makes it possible for unauthenticated attackers to read the title, content/description, author, publication and modification dates, word count, comment count, and other metadata of private, draft, and pending posts by enumerating post IDs, bypassing WordPress core access controls.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wordlift/tags/3.54.10/classes/jsonld/class-jsonld-by-id-endpoint.php#L112" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-4792</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-4792</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.047000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Bread plugin for WordPress is vulnerable to information exposure in versions up to and including 2.9.12. This is due to the lack of authentication and authorization checks on the settings export functionality (download_settings function) which is registered on the plugins_loaded hook and explicitly allows execution on non-admin (public) pages. The function exports all plugin configuration settings including the protection_password field, which is stored in plaintext. This makes it possible for unauthenticated attackers to retrieve the PDF protection password by accessing the /?export-meeting-list=1 endpoint.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/bread/tags/2.9.10/admin/class-bread-admin.php#L289" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89093</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-89093</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16.443000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Better Messages – Chat Rooms, Group Chat, Private Messages &amp; AI Chat Bots plugin for WordPress is vulnerable to Information Exposure by Spoofing in all versions up to, and including, 2.15.33. This is due to the `is_ai_bot_user()` function identifying privileged internal AI bot accounts by performing a prefix check for `&#x27;ai-chat-bot-&#x27;` against a guest record&#x27;s stored IP address, which is populated verbatim from the client-controlled `X-Real-IP` request header during unauthenticated guest registration. This makes it possible for unauthenticated attackers to register a guest identity that the plugin treats as its own internal AI bot, bypassing the per-room role allowlist, draft-status check, and join filters — which are all short-circuited by the bot check in `user_can_join()` and `user_can_read()` — to join administrator-restricted chat rooms, post messages into them, and read the private message history of other users.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/bp-better-messages/tags/2.15.33/inc/chats.php#L2145" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-18346</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-18346</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:33.553000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The TikTok plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.4.1. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for unauthenticated attackers to overwrite the merchant&#x27;s stored TikTok integration access token in wp_options, hijacking the site&#x27;s TikTok Business and product catalog integration. Successful exploitation requires the attacker to supply a valid TikTok OAuth auth_code issued for the merchant&#x27;s registered TikTok app, as the plugin&#x27;s token exchange must receive a message=&#x27;OK&#x27; response from TikTok&#x27;s API before the stored access token is overwritten.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/tiktok-for-business/tags/1.4.0/admin/Tt4b_Menu_Class.php#L397" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-1984</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-1984</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.467000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Ibtana – Ecommerce Product Addons plugin for WordPress is vulnerable to unauthorized post meta modification due to a missing capability check on the &#x27;iepa_use_gt_editor&#x27; AJAX action in all versions up to, and including, 0.4.7.7. This makes it possible for authenticated attackers, with Subscriber-level access and above, to update or delete arbitrary post meta entries via the &#x27;iepa_builder&#x27; meta key.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/ibtana-ecommerce-product-addons/tags/0.4.7.5/inc/class-pro.php#L58" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9832</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-9832</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:55.340000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Payment Gateway of Stripe for WooCommerce plugin for WordPress is vulnerable to Improper Verification of Cryptographic Signature in all versions up to, and including, 5.0.8. This is due to the publicly accessible `woocommerce_api_wt_stripe` webhook endpoint (`EH_Stripe_Webhook_Handler::handle()`) wrapping the only call to `\Stripe\Webhook::constructEvent()` inside an `if (!empty($endpoint_secret))` guard that is never entered on default installations — because the `eh_stripe_webhook_secret` option is empty after a fresh plugin install — causing the raw, attacker-controlled POST body to be decoded and processed as a fully trusted Stripe event without any signature verification, authentication, or authorization. This makes it possible for unauthenticated attackers to send forged Stripe webhook events to manipulate WooCommerce order statuses, including marking unpaid orders as paid or completed via `payment_complete()`, forcing legitimate orders into a failed state, fabricating dispute notifications, and injecting forged refund events. This vulnerability is only exploitable when the Stripe webhook signing secret has not been configured by an administrator; once a valid signing secret is saved, `\Stripe\Webhook::constructEvent()` is enforced and forged requests are rejected.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/payment-gateway-stripe-and-woocommerce-integration/tags/5.0.7/includes/class-eh-stripe-webhook-handler.php#L18" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92430</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-92430</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:34.200000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Rede Itaú for WooCommerce — Payment PIX, Credit Card and Debit WordPress plugin before 5.4.7 does not verify the authenticity of its PIX payment webhook before updating an order&#x27;s status, allowing unauthenticated attackers to mark a pending order as paid without paying.</p>
+  <a href="https://wpscan.com/vulnerability/1f1d7de5-cb7c-4440-b998-c6f15ecc6b4c/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92435</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92435</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:34.333000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Mailchimp for WooCommerce WordPress plugin before 6.1.1 does not verify that the requesting user holds the required capability in the permission callback for several of its REST API routes, allowing unauthenticated users to reach administrator-oriented endpoints and trigger a persistent state change.</p>
+  <a href="https://wpscan.com/vulnerability/4b3f9c83-8986-40d9-ab1a-848550ea7882/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93983</span><span class="badge badge-cvss">CVSS 5.3</span>
+  </div>
+  <h2>CVE-2026-93983</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:41.493000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">OpenPanel through commit bad75bdd fails to escape property keys in ClickHouse SQL queries, allowing authenticated users to inject boolean SQL terms. Attackers can supply crafted filter names to bypass project isolation and access metrics from other projects.</p>
+  <a href="https://github.com/Openpanel-dev/openpanel/security/advisories/GHSA-cc5p-97vc-8fwv" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-6295</span><span class="badge badge-cvss">CVSS 4.9</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-6295</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.340000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP Optimizer plugin for WordPress is vulnerable to SQL Injection via the &#x27;s&#x27; parameter in all versions up to and including 2.5.0. This is due to an unsafe subquery-detection branch in the Query::parse_key_compare_field() method that, when the user-supplied value matches the regex ^[(\s]*SELECT\s+, wraps the value in parentheses and embeds it directly into the SQL string without any escaping or quoting. While the normal LIKE code path correctly uses esc_sql($wpdb-&gt;esc_like(...)) and wraps the value in single quotes, this branch completely bypasses those protections. Because the attack payload (SELECT ...) contains no single quotes, WordPress&#x27;s wp_magic_quotes() provides no protection. This makes it possible for authenticated attackers with administrator-level access to inject arbitrary SQL subqueries — including time-based blind payloads — that can be used to extract sensitive information from the database.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wp-optimizer/tags/2.3.8/modules/supporters/activity-log/ActivityLog_Table.class.php#L343" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-75959</span><span class="badge badge-cvss">CVSS 4.9</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-75959</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.487000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The GoPay for WooCommerce plugin for WordPress is vulnerable to generic SQL Injection via the &#x27;log_table_filter&#x27; parameter in all versions up to, and including, 1.0.36 due to insufficient escaping on the user supplied parameter and lack of sufficient preparation on the existing SQL query. This makes it possible for authenticated attackers, with shop manager-level access and above, to append additional SQL queries into already existing queries that can be used to extract sensitive information from the database.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/gopay-gateway/tags/1.0.33/admin/class-gopay-gateway-admin.php#L83" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-91847</span><span class="badge badge-cvss">CVSS 4.8</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-91847</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.480000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Online Scheduling and Appointment Booking System  WordPress plugin before 28.2 does not verify that the requester owns the AI booking-assistant conversation named in its unauthenticated conversation actions, allowing any unauthenticated visitor to read another visitor&#x27;s assistant messages and to inject messages into their in-progress conversation.</p>
+  <a href="https://wpscan.com/vulnerability/9eef3086-3a67-4ee2-bd78-e346e7b05d62/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93982</span><span class="badge badge-cvss">CVSS 4.8</span>
+  </div>
+  <h2>CVE-2026-93982</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:41.310000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">OpenPanel through commit bad75bdd writes Model Context Protocol authentication tokens from URL query parameters to plaintext application logs without redaction. Attackers with access to application stdout or centralized logging systems can capture base64-encoded credentials to replay MCP requests and access project analytics.</p>
+  <a href="https://github.com/Openpanel-dev/openpanel/security/advisories/GHSA-8wx6-g25r-2943" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-76579</span><span class="badge badge-cvss">CVSS 4.7</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-76579</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:34.443000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The LiteSpeed Cache plugin for WordPress is vulnerable to Reflected Cross-Site Scripting via the &#x27;esi&#x27; parameter in all versions up to, and including, 7.9 due to insufficient input sanitization and output escaping. This makes it possible for unauthenticated attackers to inject arbitrary web scripts in pages that execute if they can successfully trick a user into performing an action such as clicking on a link. Exploitation requires that the attacker supply a validly signed &#x27;esi&#x27; value in the GET query string while submitting a separate attacker-controlled &#x27;esi&#x27; payload as a POST body field, relying on PHP&#x27;s default $_REQUEST merge order to have the POST value take precedence at the point of execution.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/litespeed-cache/tags/7.9/src/esi.cls.php#L566" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-7527</span><span class="badge badge-cvss">CVSS 4.7</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-7527</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:54.623000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP Ghost (Hide My WP Ghost) – Security &amp; Firewall plugin for WordPress is vulnerable to Open Redirect in all versions up to, and including, 7.0.02. This is due to the plugin not properly validating user input. This makes it possible for unauthenticated attackers to redirect users to potentially malicious sites if they can successfully trick them into clicking on a specially crafted link. Exploitation requires tricking a logged-in user into clicking a crafted logout URL; the victim is fully logged out via wp_logout() before the malicious redirect is issued, making the logout irreversible as part of the attack chain.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/hide-my-wp/tags/5.5.02/models/Rewrite.php#L1679" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92421</span><span class="badge badge-cvss">CVSS 4.7</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92421</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:34+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Hydra Booking — Appointment Scheduling &amp; Booking Calendar WordPress plugin before 1.2.3 does not verify that the host record being modified belongs to the user making the request, allowing authenticated users holding a Hydra Booking — Appointment Scheduling &amp; Booking Calendar WordPress plugin before 1.2.3-assigned host role to modify other hosts&#x27; profile data and reassign ownership of another host&#x27;s record to themselves.</p>
+  <a href="https://wpscan.com/vulnerability/3ba305b9-5f3b-47eb-a5d7-ddbeeeefd0a4/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93987</span><span class="badge badge-cvss">CVSS 4.6</span>
+  </div>
+  <h2>CVE-2026-93987</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:42.187000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">rclone versions 1.56.0 through 1.75.0 contain a path traversal vulnerability in the `rclone serve docker` volume plugin. newVolume() in cmd/serve/docker/volume.go computes a volume&#x27;s mountpoint as filepath.Join(drv.root, name) from the attacker-supplied `name` field of a Docker VolumeDriver.Create request without verifying that the result stays within drv.root (default /var/lib/docker-volumes/rclone), and checkMountpoint() then creates that directory with file.MkdirAll before mounting. A volume name containing enough `..` components (e.g. &quot;../../../../../../etc&quot;) therefore resolves outside the base directory, allowing anyone able to submit a VolumeDriver.Create request to the plugin socket — normally the Docker daemon, or a workload that can request named volumes in a multi-tenant orchestration setup — to make the privileged rclone plugin process create a directory and mount a remote filesystem specified in the same request at an arbitrary host path, shadowing or disrupting system directories. The advisory notes Volume.restoreState() had the same missing validation when reloading persisted volume state. Fixed in 1.75.1.</p>
+  <a href="https://github.com/rclone/rclone/security/advisories/GHSA-p6vx-hf7p-98j6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-12042</span><span class="badge badge-cvss">CVSS 4.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-12042</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:12.997000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The WP2Social Auto Publish plugin for WordPress is vulnerable to Stored Cross-Site Scripting via admin settings in all versions up to, and including, 2.4.12 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with administrator-level permissions and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. This only affects multi-site installations and installations where unfiltered_html has been disabled.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/facebook-auto-publish/tags/2.4.11/admin/ajax-actions.php#L39" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-12402</span><span class="badge badge-cvss">CVSS 4.4</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-12402</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:51.907000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The OTP Login &amp; Register Woocommerce plugin for WordPress is vulnerable to Stored Cross-Site Scripting via &#x27;fb-config&#x27; Setting in all versions up to, and including, 2.7.3 due to insufficient input sanitization and output escaping. This makes it possible for authenticated attackers, with administrator-level access and above, to inject arbitrary web scripts in pages that will execute whenever a user accesses an injected page. On multisite installations where administrators do not hold the unfiltered_html capability, this vulnerability can be leveraged to target the network super administrator.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/mobile-login-woocommerce/tags/2.7.2/includes/class-xoo-ml-frontend.php#L153" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9613</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-9613</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:35.060000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Datalogics Ecommerce Delivery – Datalogics plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.6.65. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to create and cancel real shipping orders through the external logistics API using the store&#x27;s stored authentication token, modify arbitrary WooCommerce order post meta on any order, overwrite the plugin&#x27;s stored API token, and trigger shipping notification emails to customers.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/datalogics/tags/2.6.63/actions.php#L198" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-88944</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-88944</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:16+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Tutor LMS – eLearning and online course solution plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 4.0.8. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to permanently delete arbitrary WordPress posts — including pages, courses, quizzes, and WooCommerce products — via wp_delete_post( $id, true ). The exploit chain requires the attacker to first trigger the profile-photo upload flow to obtain an authored wp_posts attachment row, then create a Tutor topic reparented to that attachment, before invoking the lesson deletion handler against any target post ID.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/tutor/tags/4.0.7/classes/Course.php#L1758" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9615</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-9615</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:55.193000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Flex Import plugin for WordPress is vulnerable to Missing Authorization in all versions up to, and including, 3.0. This is due to the license_activate_fleximp() and license_deactivate_fleximp() functions, hooked to the wp_ajax_license_activate_fleximp and wp_ajax_license_deactivate_fleximp AJAX actions, lacking both a capability check (current_user_can()) and nonce verification (the client-side script sends a &#x27;wpnonce&#x27; value but the handlers never validate it). This makes it possible for authenticated attackers, with subscriber-level access and above, to activate an arbitrary/fraudulent license key (persisting it via update_option(&#x27;fleximp_is_premium&#x27;) and toggling validation, suspension, and bundle status options) or deactivate the site&#x27;s legitimate license (deleting the stored key and setting fleximp_validation_status to false), thereby disrupting the plugin&#x27;s premium functionality.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/flex-import/tags/2.5/includes/fleximp-license-functions.php#L159" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15946</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-15946</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:52.917000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Search Atlas SEO – Premier SEO Plugin for One-Click WP Publishing &amp; Integrated AI Optimization plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.6.23. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to overwrite the whitelabel settings password to an attacker-controlled value, enabling them to unlock whitelabel-protected admin settings tabs including whitelabel, general, and advanced configuration.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/metasync/tags/2.6.16/admin/class-metasync-admin.php#L215" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9766</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-9766</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:35.210000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Empik for Woocommerce plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 1.5.1. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to modify arbitrary WooCommerce product metadata, including Empik logistic class (_empik_logistic_klass), product state (_empik_product_state, _empik_product_state_all_variants), and Empik export and offer flags on any product in the store.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/empik-for-woocommerce/tags/1.5.1/src/Wp_Admin/CSV/CSV_Ajax.php#L12" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-9858</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-9858</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T02:16:35.350000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Partial Shipment for Woocommerce plugin for WordPress is vulnerable to Missing Authorization in versions up to, and including, 3.4 via the wxp_order_shipment, wxp_order_item_shipment, and wxp_order_set_shipped AJAX actions. This is due to the AJAX handlers in woocommerce-partial-shipment.php (registered at lines 60–62 and implemented at lines 228, 263, and 291) lacking both capability checks and nonce verification, and not validating the calling user&#x27;s ownership of the supplied order_id. This makes it possible for authenticated attackers, with Subscriber-level access and above, to read arbitrary order item details (names, quantities, shipped counts) belonging to any customer and to modify the shipment status / shipped quantities of any order, which can also trigger order status transitions via the wxp_order_status action.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/wc-partial-shipment/tags/3.4/woocommerce-partial-shipment.php#L228" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-11899</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-11899</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:51.760000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The PDF Builder for WooCommerce. Create invoices,packing slips and more plugin for WordPress is vulnerable to authorization bypass in all versions up to, and including, 2.0.11. This is due to the plugin not properly verifying that a user is authorized to perform an action. This makes it possible for authenticated attackers, with subscriber-level access and above, to retrieve invoice numbers, formatted invoice numbers, and creation timestamps for arbitrary WooCommerce orders by supplying any OrderNumber and InvoiceId values with a garbage nonce.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/woo-pdf-invoice-builder/trunk/utilities/HttpPostProcessor.php#L6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15947</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-15947</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.063000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Metasync plugin for WordPress is vulnerable to unauthorized modification of data due to a missing capability check on the save_instant_indexing_settings() function in versions up to, and including, 2.6.23. This function is registered on the admin_init hook and only checks for the presence of $_POST[&#x27;submit&#x27;] before writing attacker-supplied $_POST[&#x27;metasync_post_types&#x27;] into the site-wide &#x27;metasync_options_instant_indexing&#x27; option via update_option(); no current_user_can()/current_user_has_plugin_access() check and no nonce verification are performed. This makes it possible for authenticated attackers, with Subscriber-level access and above, to modify the site&#x27;s Google Instant Indexing post-type configuration, controlling which post types are auto-submitted to Google&#x27;s Instant Indexing service.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/metasync/tags/2.6.16/admin/class-metasync-admin.php#L384" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-15660</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-15660</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-18T20:17:13.717000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The SEO Booster plugin for WordPress is vulnerable to Missing Authorization in versions up to, and including, 7.4.7. This is due to a missing capability check on the handle_oauth_callback() function which is hooked to admin_init and processes $_GET[&#x27;access_token&#x27;] and $_GET[&#x27;google_email&#x27;] without verifying the caller&#x27;s role. This makes it possible for authenticated attackers, with Subscriber-level access and above, to overwrite the seobooster_access_token, seobooster_google_email, and seobooster_gsc_sites options and delete the seobooster_needs_reauth flag by visiting a crafted /wp-admin/ URL, disrupting the Google Search Console integration and injecting attacker-chosen data into site options via the attacker-supplied token that drives an outbound Google API request whose response is stored.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/seo-booster/tags/7.3.2/seo-booster.php#L243" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-2278</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-2278</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.610000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The VW Writer Blog theme for WordPress is vulnerable to unauthorized modification of data due to a missing capability check on the &#x27;vw_writer_blog_reset_all_settings&#x27; function in all versions up to, and including, 1.3.8. This makes it possible for authenticated attackers, with Subscriber-level access and above, to reset all theme customizer settings to their defaults.</p>
+  <a href="https://themes.trac.wordpress.org/browser/vw-writer-blog/1.3.6/functions.php#L487" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-1242</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-1242</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T01:16:53.200000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The BlockSpare plugin for WordPress is vulnerable to authorization bypass due to incorrect logic in the permission callback in all versions up to, and including, 4.2.6 due to the use of an AND (&amp;&amp;) operator instead of an OR (||) operator. This makes it possible for authenticated attackers, with Subscriber-level access and above, to bypass authorization checks and create arbitrary posts.</p>
+  <a href="https://plugins.trac.wordpress.org/browser/blockspare/tags/3.3.0/inc/layout/save-templates.php#L9" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-16557</span><span class="badge badge-cvss">CVSS 4.3</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-16557</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:32.303000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Nimble Page Builder WordPress plugin through 3.3.8 does not perform an authorization check when returning page-builder content through an authenticated AJAX action, allowing any authenticated user (Subscriber+) to disclose the page-builder content of arbitrary non-public (draft, pending, private, scheduled) posts and pages.</p>
+  <a href="https://wpscan.com/vulnerability/a47221d4-bd82-4813-a2de-423fbe014ea0/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93999</span><span class="badge badge-cvss">CVSS 4.2</span>
+  </div>
+  <h2>CVE-2026-93999</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T08:17:08.627000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">A flaw was found in the OIDC protocol implementation of Keycloak, an open-source identity and access management solution. The issue occurs during the token refresh process when the server restores requested audiences from stored client IDs. Keycloak fails to verify if the target audience client is still enabled before issuing a new access token. This allows an application with an existing refresh token to continue obtaining valid access tokens for a disabled client, potentially bypassing administrative access controls for resource servers that rely on offline JWT validation.</p>
+  <a href="https://access.redhat.com/security/cve/CVE-2026-93999" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94057</span><span class="badge badge-cvss">CVSS 4.0</span>
+  </div>
+  <h2>CVE-2026-94057</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:11.257000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Exim before 4.100.1 allows SMTP smuggling in which the received message does not match any sent message, and instead depends on crafted data sent after a rejection during DATA processing.</p>
+  <a href="https://lists.exim.org/lurker/message/20260918.121220.0f87338e.en.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92420</span><span class="badge badge-cvss">CVSS 3.8</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92420</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.893000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Hydra Booking — Appointment Scheduling &amp; Booking Calendar WordPress plugin before 1.2.2 does not verify that a booking belongs to the requesting user before modifying or deleting it on two of its booking endpoints, allowing a booking-provider-level user to cancel and permanently delete other providers&#x27; bookings on the same site.</p>
+  <a href="https://wpscan.com/vulnerability/3685e160-f3a4-4772-b2e3-f6155894ab4c/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-92403</span><span class="badge badge-cvss">CVSS 3.7</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-92403</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:33.683000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Secure Custom Fields WordPress plugin before 6.9.4 does not properly verify that a front-end form submission corresponds to the form that was rendered to the visitor, allowing unauthenticated users to submit against a different registered form and modify the title and content of the post that form is bound to.</p>
+  <a href="https://wpscan.com/vulnerability/740341ca-6419-4980-8ee9-d9e5c0f8df92/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-94055</span><span class="badge badge-cvss">CVSS 3.7</span>
+  </div>
+  <h2>CVE-2026-94055</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.973000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Exim before 4.100.1, when certain non-default TLS settings are used with GnuTLS, has a use-after-free.</p>
+  <a href="https://lists.exim.org/lurker/message/20260918.121220.0f87338e.en.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2025-15698</span><span class="badge badge-cvss">CVSS 3.5</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2025-15698</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T00:16:31.313000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Business Name Generator WordPress plugin through 1.3 does not sanitise and escape some of its settings, which could allow high privilege users such as admin to perform Stored Cross-Site Scripting attacks even when the unfiltered_html capability is disallowed (for example in multisite setup).</p>
+  <a href="https://wpscan.com/vulnerability/c6aa25a4-c795-47e6-9d09-bebe4afc1a08/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93981</span><span class="badge badge-cvss">CVSS 2.3</span>
+  </div>
+  <h2>CVE-2026-93981</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:41.080000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">hono before 4.13.7 fails to HTML-escape plain strings rendered by hono/jsx as a child or fallback of Suspense, as a string child of ErrorBoundary alongside an asynchronous sibling, as the single child of a Context.Provider, or as the root value passed to renderToString() or renderToReadableStream() from hono/jsx/dom/server. These paths stringify their input and treat the result as already-escaped markup, so an attacker who controls such a string during server-side rendering can inject arbitrary HTML and execute script under the application&#x27;s origin.</p>
+  <a href="https://github.com/honojs/hono/security/advisories/GHSA-hxh3-vqpv-xpqv" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93986</span><span class="badge badge-cvss">CVSS 2.3</span>
+  </div>
+  <h2>CVE-2026-93986</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T05:16:42.027000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">rclone before 1.75.1 fails to confine names from server and third-party listing responses to the listed directory, allowing path traversal sequences in object names. Attackers can craft special names containing forward slashes and parent directory references to potentially write outside the destination root, though downstream protections in the local backend currently block actual file escape.</p>
+  <a href="https://github.com/rclone/rclone/security/advisories/GHSA-3vxh-3pcx-9m8q" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93989</span><span class="badge badge-cvss">CVSS 2.3</span>
+  </div>
+  <h2>CVE-2026-93989</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:10.043000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">vLLM through 0.29.0 fails to properly validate bad_words token indices against the model&#x27;s generation output width in SamplingParams.update_from_tokenizer(). Attackers can supply out-of-bounds token indices that corrupt logits memory of concurrent requests, causing different in-flight HTTP requests to return incorrect tokens.</p>
+  <a href="https://github.com/vllm-project/vllm" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93954</span><span class="badge badge-cvss">CVSS 2.1</span>
+  </div>
+  <h2>CVE-2026-93954</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T15:16:28.453000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security vulnerability has been detected in grimmory-tools grimmory up to 3.3.3/3.4.1. Affected is the function AppSettingController.getAppSettings of the file backend/src/main/java/org/booklore/controller/AppSettingController.java of the component Settings API Endpoint. Such manipulation leads to incorrect authorization. The attack can be launched remotely. The exploit has been disclosed publicly and may be used. The name of the patch is 2b66ca6df8110f6b512e030b54c16b9fbe318f17. Applying a patch is advised to resolve this issue. PR #2558, merged as 53abc8b, moved the OIDC secret into a dedicated setting, but did not by itself restrict GET /api/v1/settings.</p>
+  <a href="https://github.com/grimmory-tools/grimmory/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93955</span><span class="badge badge-cvss">CVSS 2.1</span>
+  </div>
+  <h2>CVE-2026-93955</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:09.077000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was detected in grimmory-tools grimmory up to 3.3.3/3.4.1. Affected by this vulnerability is the function streamFileToResponse of the file backend/src/main/java/org/booklore/controller/KoboController.java of the component Download Endpoint. Performing a manipulation of the argument bookId results in authorization bypass. The attack may be initiated remotely. The exploit is now public and may be used. Issue #2431 is closed as completed, but its only comment states that the issue “has already been reported elsewhere.” No fixing commit or pull request is identified there.</p>
+  <a href="https://github.com/grimmory-tools/grimmory/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93956</span><span class="badge badge-cvss">CVSS 2.0</span>
+  </div>
+  <h2>CVE-2026-93956</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:09.707000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A flaw has been found in olivier-ls PHP-FTS up to 1.1.2. Affected by this issue is the function SearchEngine::buildHighlights of the file src/SearchEngine.php of the component Search Engine. Executing a manipulation of the argument Query can lead to cross site scripting. The attack may be launched remotely. The exploit has been published and may be used. Upgrading to version 1.1.3 can resolve this issue. This patch is called 0b2fae333d6b022da7ed4c43e2d41aa03f91dff3. The affected component should be upgraded. The vendor was contacted early, responded in a very professional manner and quickly released a fixed version of the affected product.</p>
+  <a href="https://github.com/olivier-ls/php-fts/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-78030</span>
+  </div>
+  <h2>CVE-2026-78030</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T04:16:37.667000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">DBI versions before 1.653 for Perl load arbitrary modules via unvalidated dbm_type and dbm_mldbm attributes in DBD::DBM.
+
+DBD::DBM passes the dbm_type and dbm_mldbm connect attributes to require without checking that the value names a module. require treats a path-shaped string as a literal filename and does not consult @INC, so the attribute chooses the file that Perl loads and runs.
+
+The MLDBM::Serializer:: prefix that DBD::DBM prepends to dbm_mldbm is not a boundary: only the :: separators are rewritten to /, so a value containing / traverses out of the serializer directory. The value is also assigned to $MLDBM::Serializer, which MLDBM requires the same way when it ties the table.
+
+A caller that lets an untrusted party influence either attribute, for example through a DSN fragment or a parameter that selects a storage backend, runs the file-scope code of whatever module the value names.
+
+For example,
+
+    my $dsn = &quot;dbi:DBM:f_dir=/var/db;dbm_type=../../Untrusted.pm&quot;
+    my $dbh = DBI-&gt;connect( $dsn );
+
+Note that DBD::Gofer forwards connect attributes to the server side, and DBI::ProxyServer checks only that a DSN starts with a driver prefix.</p>
+  <a href="https://github.com/perl5-dbi/dbi/commit/315c6ce703b8b3cbe9188062d9ec80730293554a.patch" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>CISA Flags Three Linux Kernel Vulnerabilities Exploited in the Wild</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T06:24:10+00:00</div>
+    <div><strong>Reasons:</strong> keyword: exploited, active exploitation signal</div>
+  </div>
+  <p class="summary">The U.S. Cybersecurity and Infrastructure Security Agency (CISA) on Friday added three security flaws impacting the Linux kernel to its Known Exploited Vulnerabilities (KEV) catalog, citing evidence of active exploitation. The vulnerabilities are listed below - CVE-2025-39682 (CVSS score: 9.8) - An improper check for unusual or exceptional conditions vulnerability in the TLS receive path</p>
+  <a href="https://thehackernews.com/2026/09/cisa-flags-three-linux-kernel.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>CrowdSec Says TanStack npm Attack Led to Copy of 170 Private GitHub Repositories</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T07:14:54+00:00</div>
+    <div><strong>Reasons:</strong> keyword: supply chain</div>
+  </div>
+  <p class="summary">An attacker copied about 170 of CrowdSec&#x27;s private GitHub repositories on May 22 using the account of an employee who had just left, CrowdSec said on September 18. The French security company had kept his GitHub access open. CrowdSec says his laptop was compromised in May&#x27;s supply chain attack on TanStack, in which malicious versions of TanStack&#x27;s npm packages stole credentials from</p>
+  <a href="https://thehackernews.com/2026/09/crowdsec-says-tanstack-npm-attack-led.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Google Gemini Broke Into Real Company Systems After Security Test Domain Mix-Up</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T07:51:34+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Google&#x27;s Gemini model has become the latest artificial intelligence (AI) system to access the internet and break into other companies during a cybersecurity evaluation. The development was first reported by The Wall Street Journal. The incidents occurred in May 2026 as part of a test run conducted by Israeli company Irregular. The evaluation partner was also involved in similar hacks disclosed</p>
+  <a href="https://thehackernews.com/2026/09/google-gemini-broke-into-real-company.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Critical Pre-Auth RCE in Orkes Conductor Workflow Platform Exploited in the Wild</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T08:18:54+00:00</div>
+    <div><strong>Reasons:</strong> keyword: exploited, RCE indicator, active exploitation signal</div>
+  </div>
+  <p class="summary">A critical vulnerability impacting Orkes Conductor is being actively exploited in the wild, according to Fortinet. The vulnerability in question is CVE-2026-58138 (CVSS v3.1 score: 9.8/CVSS v4 score: 9.3), which relates to a case of unauthenticated remote code execution. &quot;Orkes Conductor 3.21.21 before 3.30.2 contains an unauthenticated remote code execution vulnerability that allows remote</p>
+  <a href="https://thehackernews.com/2026/09/critical-pre-auth-rce-in-orkes.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-82560</span>
+  </div>
+  <h2>CVE-2026-82560</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T09:16:32.140000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Pod::Text versions before 6.1.1 for Perl allow CPU and memory exhaustion formatting a POD document whose =over nesting drives the margin to the output width.
+
+Each =over adds its indent to the margin, which wrap() subtracts from the output width to get the space available for text. When that space reaches zero, the line-splitting substitution matches the empty string, and the loop consumes no input while appending the margin padding on every pass.
+
+Formatting an attacker-supplied POD document never returns, and the output grows until memory is exhausted.</p>
+  <a href="https://github.com/rra/podlators/commit/70510174f69eb54aa6d617bde4e1402cd9b7c61f.patch" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>SolarWinds Patches ARM Hard-Coded Key Flaw Enabling Unauthenticated RCE</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T09:31:17+00:00</div>
+    <div><strong>Reasons:</strong> keyword: exploited, RCE indicator</div>
+  </div>
+  <p class="summary">SolarWinds has released security updates to address a high-severity flaw in Access Rights Manager (ARM) that, if successfully exploited, could lead to an unauthenticated remote code execution vulnerability. The vulnerability, tracked as CVE-2026-28326, is rated 8.8 out of 10.0 on the CVSS scoring system. The issue affects all versions of Access Rights Manager 2026.2 and prior. &quot;SolarWinds</p>
+  <a href="https://thehackernews.com/2026/09/solarwinds-patches-arm-hard-coded-key.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Viral AI actress&#x27; hotline face-scans every caller, watches their mood</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T11:38:20+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">AI actress Tilly Norwood went viral after glitching into Chinese on Piers Morgan Uncensored last night. Her &quot;Talking Tilly&quot; video call service face-scans every caller for an 18+ age check, senses callers&#x27; moods during calls, and shuts down permanently on September 27. We tried it and read the fine print. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/viral-ai-actress-hotline-face-scans-every-caller-watches-their-mood/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Identity Visibility in 2026: The Foundation of Identity Security</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T13:28:41+00:00</div>
+    <div><strong>Reasons:</strong> keyword: breach</div>
+  </div>
+  <p class="summary">Identity visibility is a starting point for modern identity security, because stolen and misused credentials are among the most frequently reported initial access vectors in breach research, including Verizon&#x27;s annual Data Breach Investigations Report. This article explains what identity visibility means in IAM, why cloud and multicloud environments complicate it, which capabilities matter in</p>
+  <a href="https://thehackernews.com/2026/09/identity-visibility-in-2026-foundation.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Can You Prove a New CVE Is Exploitable Before Attackers Do? Learn How in This Webinar</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T13:28:48+00:00</div>
+    <div><strong>Reasons:</strong> keyword: exploited</div>
+  </div>
+  <p class="summary">A new CVE drops. Your scanner finds it. The severity score looks ugly. But that still does not answer the question that matters: Can it actually be exploited in your environment? Mythos-class AI is compressing the time between disclosure and working exploitation, while many security programs still validate risk on weekly or quarterly cycles. The dangerous gap is no longer just technical. It is</p>
+  <a href="https://thehackernews.com/2026/09/can-you-prove-new-cve-is-exploitable.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>ShinyHunters hacks Clop leak site, threatens to extort ransomware gang</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T13:48:32+00:00</div>
+    <div><strong>Reasons:</strong> keyword: breach</div>
+  </div>
+  <p class="summary">The ShinyHunters extortion gang breached the Clop (aka Cl0p) ransomware operation&#x27;s data leak site, defacing the Tor site and allegedly stealing server data and the private keys for its onion service. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/shinyhunters-hacks-clop-leak-site-threatens-to-extort-ransomware-gang/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>North Korean WaterPlum hackers infected 30,000 devices worldwide</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T14:05:15+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">A joint law enforcement advisory warns that the North Korean hacking group WaterPlum compromised at least 30,000 devices worldwide from December 2025 through July 2026 and transferred more than $10.7 million in stolen cryptocurrency to North Korea. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/north-korean-waterplum-hackers-infected-30-000-devices-worldwide/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">SECURITYWEEK</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>TigerByte Cyber Emerges From Stealth With $3 Million in Funding</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T14:30:00+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The company has secured over $7 million in contracts with US government agencies, including the US Space Force, the US Navy, and DARPA. The post TigerByte Cyber Emerges From Stealth With $3 Million in Funding appeared first on SecurityWeek .</p>
+  <a href="https://www.securityweek.com/tigerbyte-cyber-emerges-from-stealth-with-3-million-in-funding/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>BragJack attacks hijack AI browser agents through malicious extensions</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T14:56:31+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">BragJack, a proof-of-concept attack from Forever Security&#x27;s Gal Weizman, hijacks the AI assistants in Chrome, Edge, Opera Neon, Perplexity Comet, and Claude in Chrome using one malicious extension. The Prompt Forcing technique earned over $20,000 in bounties and two CVEs. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/bragjack-attacks-hijack-ai-browser-agents-through-malicious-extensions/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-89155</span>
+  </div>
+  <h2>CVE-2026-89155</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T16:17:08.450000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Rejected reason: This CVE ID has been rejected or withdrawn by its CVE Numbering Authority.</p>
+  <a href="https://nvd.nist.gov/vuln/detail/CVE-2026-89155" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Claude Opus 5 Helped Researchers Take Over OpenAI Staff Accounts via Chained Flaws</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-09-19T18:36:53+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Three researchers at the security firm Hacktron used Anthropic&#x27;s Claude Opus 5 to chain two flaws and take over the ChatGPT and Codex accounts of several OpenAI employees, then reach an internal OpenAI code repository. The chain began with a bug in the software that runs OpenAI&#x27;s public help forum and moved through a weakness in OpenAI&#x27;s own login system. This was security research,</p>
+  <a href="https://thehackernews.com/2026/09/claude-opus-5-helped-researchers-take.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+    </div>
+  </main>
+</body>
+</html>
