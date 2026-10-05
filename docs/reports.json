@@ -131,5 +131,12 @@
     "urgent_count": 0,
     "cve_count": 636,
     "news_count": 29
+  },
+  "2026-10-05": {
+    "date": "2026-10-05",
+    "total_count": 69,
+    "urgent_count": 0,
+    "cve_count": 64,
+    "news_count": 5
   }
 }

@@ -1,0 +1,1275 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Security News Report - 2026-10-05</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #0b0f19;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #0f172a 50%, #0b0f19 100%);
+      --card-bg: rgba(17, 24, 39, 0.7);
+      --card-border: rgba(255, 255, 255, 0.08);
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --urgent: #f43f5e;
+      --urgent-glow: rgba(244, 63, 94, 0.25);
+      --success: #10b981;
+    }
+    
+    * {
+      box-sizing: border-box;
+    }
+    
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background-color: var(--bg-color);
+      background-image: var(--bg-gradient);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+      width: 100%;
+    }
+    
+    .nav-bar {
+      margin-bottom: 40px;
+    }
+    
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .back-link:hover {
+      color: var(--accent);
+    }
+    
+    header {
+      margin-bottom: 40px;
+    }
+    
+    h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 32px;
+      font-weight: 800;
+      margin: 0 0 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.02em;
+    }
+    
+    .meta {
+      color: var(--text-secondary);
+      font-size: 15px;
+      margin: 0;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 24px;
+      margin: 20px 0;
+      overflow-wrap: anywhere;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    
+    .card:hover {
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+    
+    .card.urgent {
+      border-left: 4px solid var(--urgent);
+      background: linear-gradient(to right, rgba(244, 63, 94, 0.03), rgba(17, 24, 39, 0.7));
+      box-shadow: 0 4px 20px -2px var(--urgent-glow);
+    }
+    
+    .badge-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    
+    .badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      letter-spacing: 0.02em;
+    }
+    
+    .badge-default {
+      background: rgba(148, 163, 184, 0.1);
+      color: #cbd5e1;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+    }
+    
+    .badge-urgent {
+      background: rgba(244, 63, 94, 0.15);
+      color: #fda4af;
+      border: 1px solid rgba(244, 63, 94, 0.3);
+    }
+    
+    .badge-cve {
+      background: rgba(59, 130, 246, 0.15);
+      color: #93c5fd;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+    }
+    
+    .badge-kev {
+      background: rgba(245, 158, 11, 0.15);
+      color: #fcd34d;
+      border: 1px solid rgba(245, 158, 11, 0.3);
+    }
+    
+    .badge-cvss {
+      background: rgba(239, 68, 68, 0.15);
+      color: #fca5a5;
+      border: 1px solid rgba(239, 68, 68, 0.3);
+    }
+    
+    .badge-epss {
+      background: rgba(168, 85, 247, 0.15);
+      color: #d8b4fe;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+    }
+    
+    h2 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #ffffff;
+      line-height: 1.4;
+    }
+    
+    .card-meta {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin: 12px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    
+    .card-meta strong {
+      color: #cbd5e1;
+    }
+    
+    p.summary {
+      line-height: 1.6;
+      color: #cbd5e1;
+      font-size: 14.5px;
+      margin: 16px 0;
+      background: rgba(0, 0, 0, 0.15);
+      padding: 12px 16px;
+      border-radius: 8px;
+      border-left: 2px solid var(--accent);
+    }
+    
+    .source-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--accent);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 8px;
+      transition: color 0.2s ease;
+    }
+    
+    .source-link:hover {
+      color: #818cf8;
+      text-decoration: underline;
+    }
+    
+    .no-items {
+      text-align: center;
+      padding: 40px;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="nav-bar">
+      <a href="../index.html" class="back-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        Back to Reports Portal
+      </a>
+    </div>
+    
+    <header>
+      <h1>Security News Report</h1>
+      <p class="meta">Digest generated for <strong>October 05, 2026</strong></p>
+    </header>
+    
+    <div class="cards-list">
+      <article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105134</span><span class="badge badge-cvss">CVSS 9.3</span><span class="badge badge-epss">EPSS 1.8%</span>
+  </div>
+  <h2>CVE-2026-105134</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:33.480000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">A flaw has been found in Ahsay AhsayCBS up to 10.3.2. This vulnerability affects unknown code of the file /rps/api/json/UpdateReceivers.do of the component Replication Receiver. Executing a manipulation of the argument random can lead to os command injection. It is possible to launch the attack remotely. The exploit has been published and may be used. Upgrading to version 10.3.4 is able to resolve this issue. Upgrading the affected component is advised.</p>
+  <a href="https://vuldb.com/cve/CVE-2026-105134" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105135</span><span class="badge badge-cvss">CVSS 9.3</span><span class="badge badge-epss">EPSS 0.8%</span>
+  </div>
+  <h2>CVE-2026-105135</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:33.693000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">A vulnerability has been found in InternLM MindSearch 0.1.0. This issue affects the function ExecutionAction.run of the file mindsearch/agent/graph.py of the component Planner Agent. The manipulation of the argument inputs leads to code injection. The attack can be initiated remotely. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://gist.github.com/DReazer/7ad46df9da73d0cf414276e4195b2183" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-103355</span><span class="badge badge-cvss">CVSS 9.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-103355</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:38.820000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">Improper Neutralization of Special Elements used in an SQL Command (&#x27;SQL Injection&#x27;) vulnerability in Unlimited Elements Unlimited Elements For Elementor (Free Widgets, Addons, Templates) unlimited-elements-for-elementor allows Blind SQL Injection.This issue affects Unlimited Elements For Elementor (Free Widgets, Addons, Templates): from n/a through 2.0.20.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/unlimited-elements-for-elementor/vulnerability/wordpress-unlimited-elements-for-elementor-free-widgets-addons-templates-plugin-2-0-20-sql-injection-vulnerability-2?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105207</span><span class="badge badge-cvss">CVSS 9.3</span>
+  </div>
+  <h2>CVE-2026-105207</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:31.677000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">ZITADEL 3.0.0 through 3.4.15 and 4.0.0 before 4.17.3 creates links between user accounts and external identity providers without verifying a primary factor or the caller&#x27;s permission, including on identify-only Login V2 sessions and via the User Service V2 AddIDPLink endpoint. An unauthenticated attacker knowing a victim&#x27;s login name can bind their own external IdP identity to the victim&#x27;s account and then sign in as the victim.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-g8gj-gq47-xgf4" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105209</span><span class="badge badge-cvss">CVSS 9.3</span>
+  </div>
+  <h2>CVE-2026-105209</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.007000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">ZITADEL 3.x before 3.4.15 and 4.x before 4.17.1 contains an improper authorization vulnerability: when issuing passkey or passwordless enrollment codes, it checks only the organization in the x-zitadel-orgid header, not the target user&#x27;s organization. Attackers with user-write permission in one organization can obtain an enrollment code for a user in another organization on the same instance and register their own authenticator to take over that account.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-pq2q-2c6r-75c4" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105215</span><span class="badge badge-cvss">CVSS 9.3</span>
+  </div>
+  <h2>CVE-2026-105215</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.993000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">ZITADEL before 3.4.14 and 4.x before 4.16.2 contains an authentication bypass in the hosted Login V1 UI because the &#x27;external account not found&#x27; registration endpoint trusts client-supplied external identity fields without a completed IdP callback. Unauthenticated attackers can submit forged IDPConfigID and ExternalUserID values to pre-create an account bound to a victim&#x27;s external IdP identity, which the victim&#x27;s later genuine external login then signs into.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-738m-7888-jfv8" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105086</span><span class="badge badge-cvss">CVSS 9.3</span>
+  </div>
+  <h2>CVE-2026-105086</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T09:16:30.183000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">WWBN AVideo 12.4 through 29.2.0 contains a stored cross-site scripting vulnerability that allows authenticated uploaders to inject HTML by submitting doubly-encoded entities in video titles. Because safeString() strips tags before decoding entities and runs twice via setTitle() and save(), attackers can store markup that executes in trending, gallery, embed, and playlist pages.</p>
+  <a href="https://github.com/WWBN/AVideo/commit/c4b6ca95a0ae3efa09919a98879870086cff150e" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105089</span><span class="badge badge-cvss">CVSS 9.3</span>
+  </div>
+  <h2>CVE-2026-105089</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T09:16:30.330000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.3 CRITICAL</div>
+  </div>
+  <p class="summary">WWBN AVideo through 29.2.0 contains a stored cross-site scripting vulnerability that allows users with upload permission to inject script by setting a malicious video trailer1 URL. The value is rendered unescaped in YouPHPFlix2 templates and channel playlists, letting attackers break out of onclick strings or iframe src attributes to execute JavaScript in victims&#x27; browsers.</p>
+  <a href="https://github.com/WWBN/AVideo/commit/c4adfde13d1f18e3a415722471efdcd8ab480035" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105211</span><span class="badge badge-cvss">CVSS 9.2</span>
+  </div>
+  <h2>CVE-2026-105211</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.333000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.2 CRITICAL</div>
+  </div>
+  <p class="summary">ZITADEL before 4.17.1 contains an authentication bypass vulnerability in Login V2 that allows unauthenticated attackers to take over accounts by obtaining OTP codes via the returnCode delivery type. Attackers knowing a login name of a victim with OTP-Email and OTP-SMS enrolled can read both codes from server-action responses to gain MFA-authenticated sessions, including administrator takeover.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-3gwm-5wx8-4gm6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105216</span><span class="badge badge-cvss">CVSS 9.1</span>
+  </div>
+  <h2>CVE-2026-105216</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T11:16:34.287000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">go-micro before 6.0.0 contains an improper certificate validation vulnerability that allows network attackers to impersonate services because the shared TLS helper sets InsecureSkipVerify to true by default. Man-in-the-middle attackers can present any certificate to intercept or modify gRPC transport, HTTP and RabbitMQ broker, and Consul or etcd registry traffic, including authentication tokens and credentials.</p>
+  <a href="https://github.com/micro/go-micro" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105218</span><span class="badge badge-cvss">CVSS 9.1</span>
+  </div>
+  <h2>CVE-2026-105218</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T11:16:34.630000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL</div>
+  </div>
+  <p class="summary">gopay before 1.5.119 disables TLS certificate verification in defaultClient() in pkg/xhttp/client.go, allowing man-in-the-middle attackers to impersonate payment provider APIs. Attackers can present any certificate to read merchant credentials, signatures and transaction data, and modify payment, refund and order query responses.</p>
+  <a href="https://github.com/go-pay/gopay" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105221</span><span class="badge badge-cvss">CVSS 9.1</span>
+  </div>
+  <h2>CVE-2026-105221</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:59.770000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">The gist RubyGem before 6.1.0 contains an improper certificate validation vulnerability that allows on-path attackers to intercept HTTPS traffic because http_connection in lib/gist.rb sets VERIFY_NONE. Attackers can present any certificate to read or modify GitHub API traffic, stealing OAuth tokens and login credentials to read and modify the victim&#x27;s gists.</p>
+  <a href="https://github.com/defunkt/gist" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105222</span><span class="badge badge-cvss">CVSS 9.1</span>
+  </div>
+  <h2>CVE-2026-105222</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:59.917000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 9.1 CRITICAL, RCE indicator</div>
+  </div>
+  <p class="summary">The alexpechkarev/google-maps Laravel package through 12.16 disables TLS certificate verification by default because the bundled config sets ssl_verify_peer to FALSE, which is passed to CURLOPT_SSL_VERIFYPEER. On-path attackers can present any certificate to intercept Google Maps web-service requests, steal the API key from the query string, and tamper with responses.</p>
+  <a href="https://github.com/alexpechkarev/google-maps" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105210</span><span class="badge badge-cvss">CVSS 8.8</span>
+  </div>
+  <h2>CVE-2026-105210</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.170000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH</div>
+  </div>
+  <p class="summary">ZITADEL 3.x before 3.4.15 and 4.x before 4.17.1 contains a missing authentication flaw in the hosted Login V1 UI, whose second-factor enrollment and initialization handlers act on an identify-only session before any primary factor is verified. Attackers knowing only a victim&#x27;s login name can enroll attacker-controlled TOTP, OTP-SMS, OTP-Email, or U2F factors, overwrite the verified phone number, and enumerate users through discrepant errors.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-72q5-mv5c-vxv4" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105213</span><span class="badge badge-cvss">CVSS 8.8</span>
+  </div>
+  <h2>CVE-2026-105213</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.687000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.8 HIGH</div>
+  </div>
+  <p class="summary">ZITADEL 4.x before 4.17.1 does not check an organization&#x27;s inactive state during Login V2 authentication, verifying only the individual user&#x27;s status. Users of a deactivated organization who hold valid credentials, an existing session, or a refresh token can still sign in, create sessions, and obtain or refresh tokens.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-558c-v5wc-9w4q" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-88779</span><span class="badge badge-cvss">CVSS 8.7</span><span class="badge badge-epss">EPSS 0.3%</span><span class="badge badge-kev">KEV</span>
+  </div>
+  <h2>CVE-2026-88779</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T21:16:43.680000+00:00</div>
+    <div><strong>Reasons:</strong> CISA KEV, CVSS 8.7 HIGH</div>
+  </div>
+  <p class="summary">Vulnerability in NetScaler ADC and NetScaler Gateway.
+
+This issue affects ADC: before 14.1-73.41, before 13.1-64.28, before 14.1-73.41 FIPS, and before 13.1-37.282; Gateway: before 14.1-73.41 and before 13.1-64.28.</p>
+  <a href="https://support.citrix.com/support-home/kbsearch/article?articleNumber=CTX697174" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105208</span><span class="badge badge-cvss">CVSS 8.7</span>
+  </div>
+  <h2>CVE-2026-105208</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:31.843000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.7 HIGH</div>
+  </div>
+  <p class="summary">ZITADEL 4.x before 4.17.3 and 3.x through 3.4.15 protects IdP intent tokens with unauthenticated, malleable encryption, allowing authenticated users to tamper with their own token so it is accepted for another user&#x27;s external login intent. An attacker who predicts a victim&#x27;s in-flight intent identifier and wins a timing race can call /v2/idp_intents or /v2/sessions to steal the victim&#x27;s IdP tokens or hijack their session.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-jh3m-cr2x-qp88" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105212</span><span class="badge badge-cvss">CVSS 8.7</span>
+  </div>
+  <h2>CVE-2026-105212</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.520000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.7 HIGH</div>
+  </div>
+  <p class="summary">ZITADEL 3.x before 3.4.14 and 4.x before 4.16.2 contains an authentication bypass in the hosted Login V1 and Login V2 UIs that accepts passkey or other authenticator enrollment on identify-only login sessions, before any primary factor is verified. Unauthenticated attackers knowing only a victim&#x27;s login name can register an attacker-controlled authenticator and log in as that user, bypassing existing passwords and MFA.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-45f2-5q3r-xgg6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105219</span><span class="badge badge-cvss">CVSS 8.7</span>
+  </div>
+  <h2>CVE-2026-105219</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T11:16:34.777000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.7 HIGH</div>
+  </div>
+  <p class="summary">Mammoth.js 1.3.0 before 1.12.3 contains a regular expression denial of service vulnerability in the style map tokeniser in lib/styles/parser/tokeniser.js due to overlapping regex alternatives. Attackers can supply a crafted .docx with an unterminated quoted string of repeated backslash escapes in mammoth/style-map to block the Node.js event loop.</p>
+  <a href="https://github.com/mwilliamson/mammoth.js" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105220</span><span class="badge badge-cvss">CVSS 8.5</span>
+  </div>
+  <h2>CVE-2026-105220</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:59.627000+00:00</div>
+    <div><strong>Reasons:</strong> CVSS 8.5 HIGH</div>
+  </div>
+  <p class="summary">Twine 2 desktop through 2.12.0 contains a cross-site scripting vulnerability in importStories() that executes markup from imported story files in the editor window. Attackers can craft a story file whose script calls the twineElectron openWithScratchFile IPC bridge to write and open a .bat file, executing code as the user.</p>
+  <a href="https://github.com/klembot/twinejs" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-97307</span><span class="badge badge-cvss">CVSS 7.5</span>
+  </div>
+  <h2>CVE-2026-97307</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T04:16:33.073000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Insertion of Sensitive Information Into Sent Data vulnerability in StylemixThemes Cost Calculator Builder cost-calculator-builder allows Retrieve Embedded Sensitive Data.This issue affects Cost Calculator Builder: from n/a through 4.0.17.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/cost-calculator-builder/vulnerability/wordpress-cost-calculator-builder-plugin-4-0-17-sensitive-data-exposure-vulnerability?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-103062</span><span class="badge badge-cvss">CVSS 7.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-103062</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:37.263000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;) vulnerability in Cozmoslabs TranslatePress translatepress-multilingual allows Stored XSS.This issue affects TranslatePress: from n/a through 3.3.6.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/translatepress-multilingual/vulnerability/wordpress-translatepress-plugin-3-3-6-cross-site-scripting-xss-vulnerability?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-103344</span><span class="badge badge-cvss">CVSS 7.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-103344</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:38.543000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;) vulnerability in Unlimited Elements Unlimited Elements For Elementor (Free Widgets, Addons, Templates) unlimited-elements-for-elementor allows Reflected XSS.This issue affects Unlimited Elements For Elementor (Free Widgets, Addons, Templates): from n/a through 2.0.20.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/unlimited-elements-for-elementor/vulnerability/wordpress-unlimited-elements-for-elementor-free-widgets-addons-templates-plugin-2-0-20-cross-site-scripting-xss-vulnerability-2?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-103354</span><span class="badge badge-cvss">CVSS 7.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-103354</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:38.683000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;) vulnerability in Liquid Web / StellarWP Gutenberg Blocks by Kadence Blocks kadence-blocks allows Stored XSS.This issue affects Gutenberg Blocks by Kadence Blocks: from n/a through 3.7.11.1.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/kadence-blocks/vulnerability/wordpress-gutenberg-blocks-by-kadence-blocks-plugin-3-7-11-1-cross-site-scripting-xss-vulnerability?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-97276</span><span class="badge badge-cvss">CVSS 7.1</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-97276</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:39.640000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Improper Neutralization of Input During Web Page Generation (&#x27;Cross-site Scripting&#x27;) vulnerability in VeronaLabs WP Statistics wp-statistics allows Reflected XSS.This issue affects WP Statistics: from n/a through 14.16.14.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/wp-statistics/vulnerability/wordpress-wp-statistics-plugin-14-16-14-cross-site-scripting-xss-vulnerability?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105205</span><span class="badge badge-cvss">CVSS 6.9</span>
+  </div>
+  <h2>CVE-2026-105205</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:31.350000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">SiYuan before 3.8.5 contains an information disclosure vulnerability that allows publish-mode readers to learn backlink block IDs and reference counts from password-protected and publish-disabled documents by querying a published document. Attackers can send POST requests to /api/block/getDocInfo or getDocsInfo for a published document ID to obtain refIDs and refCount of hidden referencing blocks, bypassing the publish confidentiality boundary.</p>
+  <a href="https://github.com/siyuan-note/siyuan/security/advisories/GHSA-v758-8w88-pfr2" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105161</span><span class="badge badge-cvss">CVSS 6.9</span>
+  </div>
+  <h2>CVE-2026-105161</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T11:16:33.560000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A flaw has been found in invariant-systems-ai aiir up to 1.7.0. The affected element is an unknown function of the component Policy Gate Handler. Executing a manipulation can lead to improper verification of cryptographic signature. The attack can be executed remotely. It is advisable to upgrade the affected component. The GitHub repository of this project is not available anymore. This vulnerability only affects products that are no longer supported by the maintainer.</p>
+  <a href="https://github.com/advisories/GHSA-73p9-6hrp-8qhr" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105163</span><span class="badge badge-cvss">CVSS 6.9</span>
+  </div>
+  <h2>CVE-2026-105163</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T15:16:58.763000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was detected in crossplane crossplane-runtime up to 2.2.2/2.3.2. This vulnerability affects the function Get of the file pkg/xpkg/client.go of the component ImageConfig. The manipulation results in time-of-check time-of-use. The attack may be launched remotely. Upgrading to version 2.2.3, 2.3.3 and 2.4.0-rc.1 is able to resolve this issue. The patch is identified as bee99c6cd6ca81878acca2940a2f0a02169fc208. You should upgrade the affected component.</p>
+  <a href="https://github.com/advisories/GHSA-mf7q-r4rv-jv94" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105144</span><span class="badge badge-cvss">CVSS 5.5</span><span class="badge badge-epss">EPSS 0.5%</span>
+  </div>
+  <h2>CVE-2026-105144</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:39.437000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A flaw has been found in Drogon up to 1.9.13-1/10.0-beta.3 on Windows. Affected is the function StaticFileRouter::route of the file lib/src/StaticFileRouter.cc of the component Static File Router. Executing a manipulation can lead to path traversal. The attack may be performed from remote. The exploit has been published and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://vuldb.com/cve/CVE-2026-105144" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105133</span><span class="badge badge-cvss">CVSS 5.5</span><span class="badge badge-epss">EPSS 0.4%</span>
+  </div>
+  <h2>CVE-2026-105133</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:33.087000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was detected in Ahsay AhsayCBS up to 10.3.2. This affects the function checkSysPwd of the file com/ahsay/obs/api/ApiStructsAction.java of the component API. Performing a manipulation of the argument random results in improper authentication. It is possible to initiate the attack remotely. The exploit is now public and may be used. Upgrading to version 10.3.4 is able to mitigate this issue. It is recommended to upgrade the affected component.</p>
+  <a href="https://vuldb.com/cve/CVE-2026-105133" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105145</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105145</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T04:16:31.197000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability has been found in Weaviate Verba up to 2.1.3. Affected by this vulnerability is the function get_environment of the file goldenverba/components/util.py of the component generate_stream Endpoint. The manipulation leads to information disclosure. It is possible to initiate the attack remotely. The exploit has been disclosed to the public and may be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://gist.github.com/DReazer/63d8096046a058f9c7a533846db5e2ac" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105147</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105147</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T06:16:54.773000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was determined in SciPhi-AI R2R up to 3.6.6. This affects an unknown part of the component JWT Secret Handler. This manipulation of the argument DEFAULT_BCRYPT_SECRET_KEY/DEFAULT_NACL_SECRET_KEY causes hard-coded credentials. The attack can be initiated remotely. The exploit has been publicly disclosed and may be utilized. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://gist.github.com/DReazer/6bc4f88053ec35f8358395bcc0d1a0bb" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105148</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105148</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T06:16:55.733000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was identified in SciPhi-AI R2R up to 3.6.6. This vulnerability affects unknown code of the file py/shared/abstractions/llm.py of the component Retrieval Completion API Endpoint. Such manipulation of the argument generation_config.api_base leads to server-side request forgery. The attack can be launched remotely. The exploit is publicly available and might be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://gist.github.com/DReazer/6c1fd0ef98900fbbfa383faa20f731f6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105149</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105149</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T06:16:55.923000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security flaw has been discovered in mooSocial up to 3.2.4. This issue affects some unknown processing of the file /stores/all-products. Performing a manipulation of the argument rating results in sql injection. The attack may be initiated remotely. The exploit has been released to the public and may be used for attacks. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://vuldb.com/cve/CVE-2026-105149" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105158</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105158</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:31.150000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was detected in RainyGao DocSys up to 2.02.85. The impacted element is the function BaseController.createDBForMysql of the file BaseController.java of the component Database Management. The manipulation of the argument url results in sql injection. The attack can be executed remotely. The exploit is now public and may be used. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://gitee.com/RainyGao/DocSys/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105166</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105166</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:59.287000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was found in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. The affected element is the function insert of the file fooddonateform.php of the component Food Donation Form. Performing a manipulation of the argument image-choice results in sql injection. The attack is possible to be carried out remotely. The exploit has been made public and could be used. This product adopts a rolling release strategy to maintain continuous delivery. Therefore, version details for affected or updated releases cannot be specified. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105167</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105167</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:59.457000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was determined in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. The impacted element is an unknown function of the file admin/donate.php. Executing a manipulation of the argument location can lead to sql injection. The attack may be performed from remote. The exploit has been publicly disclosed and may be utilized. This product utilizes a rolling release system for continuous delivery, and as such, version information for affected or updated releases is not disclosed. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105169</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105169</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T17:16:58.547000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security flaw has been discovered in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. This impacts an unknown function of the file delivery/delivery.php of the component Take Order Handler. The manipulation of the argument order_id/delivery_person_id results in sql injection. It is possible to launch the attack remotely. The exploit has been released to the public and may be used for attacks. This product takes the approach of rolling releases to provide continious delivery. Therefore, version details for affected and updated releases are not available. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105170</span><span class="badge badge-cvss">CVSS 5.5</span>
+  </div>
+  <h2>CVE-2026-105170</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T17:16:58.720000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A weakness has been identified in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. Affected is an unknown function of the file admin/signup.php of the component Admin Signup. This manipulation of the argument sign causes missing authentication. The attack can be initiated remotely. The exploit has been made available to the public and could be used for attacks. Continious delivery with rolling releases is used by this product. Therefore, no version details of affected nor updated releases are available. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105141</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-105141</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:39.203000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security flaw has been discovered in topoteretes cognee up to 1.5.4. The affected element is the function get_user_id_by_email of the file cognee/modules/users/authentication/get_api_auth_backend.py of the component JWT Signing Key Handler. The manipulation of the argument FASTAPI_USERS_JWT_SECRET results in hard-coded credentials. The attack may be launched remotely. Upgrading to version 1.6.0 is sufficient to fix this issue. The patch is identified as fa65fc0cd86cdba48d19aa76e36be862be982f5d. Upgrading the affected component is advised.</p>
+  <a href="https://github.com/topoteretes/cognee/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105131</span><span class="badge badge-cvss">CVSS 5.3</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-105131</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T19:16:33.600000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">ezBookkeeping 1.2.0 before 2.0.1 contains a privilege escalation vulnerability that allows attackers holding an API token to obtain a full session token via /api/v1/tokens/refresh.json. Because TokenRefreshHandler never checks token type, attackers can exchange short-lived or IP-restricted API tokens for 30-day normal session tokens that bypass API token expiry and allowlists.</p>
+  <a href="https://github.com/mayswind/ezbookkeeping" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105206</span><span class="badge badge-cvss">CVSS 5.3</span>
+  </div>
+  <h2>CVE-2026-105206</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:31.517000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">ZITADEL 3.0.0 through 3.4.15 and 4.x before 4.17.3 contains an incorrect authorization flaw in the User Service API, which verifies user.read against the caller&#x27;s organization rather than the organization owning the target user. An authenticated member holding org-scoped user.read can query GET /v2/users/{userId}/authentication_methods to learn which authentication method types users in other organizations have registered.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-j344-gqv4-84ff" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105165</span><span class="badge badge-cvss">CVSS 5.3</span>
+  </div>
+  <h2>CVE-2026-105165</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T16:16:58.180000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability has been found in devopspolis secrets-replicator up to 0.4.0. Impacted is the function process_single_secret of the file src/handler.py of the component AssumeRole Handler. Such manipulation of the argument external_id leads to incorrect permission assignment. The attack can be executed remotely. Upgrading to version 0.5.0 is recommended to address this issue. The name of the patch is b42239405fbf4fae3c3f0048fc0b4225112edceb. It is suggested to upgrade the affected component.</p>
+  <a href="https://github.com/devopspolis/secrets-replicator/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105224</span><span class="badge badge-cvss">CVSS 5.1</span>
+  </div>
+  <h2>CVE-2026-105224</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T09:16:30.470000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">YesWiki before 4.6.7 contains a cross-site scripting vulnerability in the Bazar valeur action that allows page editors to inject script by rendering unescaped HTML fetched from a remote URL. Attackers can point tools/bazar/actions/valeur.php at a controlled server returning BAZ_fiche_titre markup with an img onerror handler, executing script in every viewer&#x27;s browser.</p>
+  <a href="https://github.com/YesWiki/yeswiki/commit/22a5260b0381824e01d340ce9457c4adb9e18b23" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105164</span><span class="badge badge-cvss">CVSS 5.1</span>
+  </div>
+  <h2>CVE-2026-105164</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T15:16:59.490000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A flaw has been found in NASA cFS up to 7.0.1. This issue affects the function CFE_FS_ParseInputFileNameEx of the file cfe/modules/fs/fsw/src/cfe_fs_api.c. This manipulation causes out-of-bounds read. Remote exploitation of the attack is possible. The pull request to fix this issue awaits acceptance.</p>
+  <a href="https://github.com/nasa/cFS/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-104402</span><span class="badge badge-cvss">CVSS 4.3</span>
+  </div>
+  <h2>CVE-2026-104402</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T09:16:28.587000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Insertion of Sensitive Information Into Sent Data vulnerability in farvisun Mindio Magic MCP mindio-magic-mcp allows Retrieve Embedded Sensitive Data.This issue affects Mindio Magic MCP: from n/a through 0.5.6.</p>
+  <a href="https://patchstack.com/database/wordpress/plugin/mindio-magic-mcp/vulnerability/wordpress-mindio-magic-mcp-plugin-0-5-6-sensitive-data-exposure-vulnerability?_s_id=cve" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105156</span><span class="badge badge-cvss">CVSS 2.9</span>
+  </div>
+  <h2>CVE-2026-105156</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:30.050000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A weakness has been identified in YzmCMS up to 7.6. Impacted is the function Password of the file /common/function/system.func.php of the component MD5 Handler. Executing a manipulation of the argument pass can lead to password hash with insufficient computational effort. The attack may be launched remotely. This attack is characterized by high complexity. The exploitability is considered difficult. The exploit has been made available to the public and could be used for attacks. The vendor kindly explains: &quot;Our regular release cycle is about 6 months. The last release was in the previous month, and our next scheduled version will be released in March 2027. We will implement the backward-compatible gradual hash migration feature in this upcoming release. (...) Before the new version is available, we will publish security mitigation guidance on our official documentation for existing deployers to reduce the risk.&quot;</p>
+  <a href="https://github.com/Witiers/CVEs/issues/6" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105214</span><span class="badge badge-cvss">CVSS 2.3</span>
+  </div>
+  <h2>CVE-2026-105214</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:32.843000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">Zitadel before 4.16.2 contains a server-side request forgery vulnerability that allows attackers to make the server request internal resources through organization domain HTTP verification. The challenge fetch uses Go&#x27;s default http.Get instead of the protected client, so attackers can register domains that redirect to loopback, internal, or cloud metadata addresses to scan ports and map internal networks.</p>
+  <a href="https://github.com/zitadel/zitadel/security/advisories/GHSA-93hm-8q29-c8cr" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105217</span><span class="badge badge-cvss">CVSS 2.3</span>
+  </div>
+  <h2>CVE-2026-105217</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T11:16:34.433000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Cockpit CMS 2.12.0 before 2.14.1 disables TLS certificate verification in the cron.php web worker restart request, allowing network attackers to capture the worker token. Man-in-the-middle attackers on the outbound path to site_url can present any certificate to steal the worker/web/token value and start the web worker.</p>
+  <a href="https://github.com/Cockpit-HQ/Cockpit" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105097</span><span class="badge badge-cvss">CVSS 2.1</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-105097</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T20:16:49.460000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was identified in Omega Solution CoinEx Crypto 2025. This impacts an unknown function of the file /customer-currency/ of the component Customer Information API. The manipulation of the argument ID leads to authorization bypass. Remote exploitation of the attack is possible. The exploit is publicly available and might be used. The product web site does not exist anymore. Maybe the product got retired and/or replaced. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://github.com/4m3rr0r/PoCVulDb/issues/25" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105096</span><span class="badge badge-cvss">CVSS 2.1</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-105096</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T19:16:28.740000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was determined in Omega Solution CoinEx Crypto 2025. This affects an unknown function of the file /customer/ of the component Customer Profile API. Executing a manipulation of the argument ID can lead to authorization bypass. The attack may be launched remotely. The exploit has been publicly disclosed and may be utilized. The product web site does not exist anymore. Maybe the product got retired and/or replaced. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://github.com/4m3rr0r/PoCVulDb/issues/24" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105098</span><span class="badge badge-cvss">CVSS 2.1</span><span class="badge badge-epss">EPSS 0.3%</span>
+  </div>
+  <h2>CVE-2026-105098</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T21:16:36.140000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security flaw has been discovered in Omega Solution CoinEx Crypto 2025. Affected is an unknown function of the file /ticket/customer of the component Support Ticket API. The manipulation of the argument status/page/count results in information disclosure. The attack can be executed remotely. The exploit has been released to the public and may be used for attacks. The product web site does not exist anymore. Maybe the product got retired and/or replaced. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://github.com/4m3rr0r/PoCVulDb/issues/26" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105157</span><span class="badge badge-cvss">CVSS 2.1</span>
+  </div>
+  <h2>CVE-2026-105157</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T08:16:30.947000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security vulnerability has been detected in RainyGao DocSys up to 2.02.85. The affected element is the function DocController.doGetTmp of the file /Doc/doGetTmpFile.do of the component Document Controller. The manipulation of the argument path/fileName leads to path traversal. Remote exploitation of the attack is possible. The exploit has been disclosed publicly and may be used. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://gitee.com/RainyGao/DocSys/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105168</span><span class="badge badge-cvss">CVSS 2.1</span>
+  </div>
+  <h2>CVE-2026-105168</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T17:16:58.373000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was identified in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. This affects an unknown function of the file admin/admin.php of the component Order Assignment Block. The manipulation of the argument order_id/delivery_person_id leads to sql injection. It is possible to initiate the attack remotely. The exploit is publicly available and might be used. This product is using a rolling release to provide continious delivery. Therefore, no version details for affected nor updated releases are available. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105171</span><span class="badge badge-cvss">CVSS 2.1</span>
+  </div>
+  <h2>CVE-2026-105171</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T17:16:58.887000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A security vulnerability has been detected in kishor-23 food-waste-management-system 411989e3ecb82895e53dca7865f72145f03d7d93/b3a70b2c492dc9904de5be1ad9389bd79b87f82c. Affected by this vulnerability is an unknown functionality of the file admin/admin.php of the component Role Attribute Handler. Such manipulation of the argument Name leads to authorization bypass. The attack can be launched remotely. The exploit has been disclosed publicly and may be used. This product does not use versioning. This is why information about affected and unaffected releases are unavailable. Multiple endpoints are affected. The project was informed of the problem early through an issue report but has not responded yet.</p>
+  <a href="https://github.com/kishor-23/food-waste-management-system/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105099</span><span class="badge badge-cvss">CVSS 2.0</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-105099</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-03T22:16:26.010000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A weakness has been identified in Omega Solution CoinEx Crypto 2025. Affected by this vulnerability is an unknown functionality of the file /user/ticket of the component Ticket Attachment Upload. This manipulation causes cross site scripting. The attack is possible to be carried out remotely. The exploit has been made available to the public and could be used for attacks. The product web site does not exist anymore. Maybe the product got retired and/or replaced. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://github.com/4m3rr0r/PoCVulDb/issues/27" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105146</span><span class="badge badge-cvss">CVSS 2.0</span>
+  </div>
+  <h2>CVE-2026-105146</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T04:16:32.857000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">A vulnerability was found in Comsenz Discuz! X5.0-20260801/X5.0-20260820/X5.0-20260910. Affected by this issue is the function modmedalsubmit of the file upload/source/app/admin/child/medals/mod.php of the component Admin Medal Moderation. The manipulation of the argument delete results in sql injection. It is possible to launch the attack remotely. The exploit has been made public and could be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://vuldb.com/cve/CVE-2026-105146" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-105137</span><span class="badge badge-cvss">CVSS 1.3</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-105137</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T02:16:38.970000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A vulnerability was found in Laradock up to 20.4. Impacted is an unknown function of the file workspace/Dockerfile of the component Build Process. The manipulation results in download of code without integrity check. The attack can be launched remotely. A high complexity level is associated with this attack. The exploitability is considered difficult. The exploit has been made public and could be used. The vendor was contacted early about this disclosure but did not respond in any way.</p>
+  <a href="https://github.com/s4hilpuni4/laradock_build_time_rce_http_download.git" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-104119</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-104119</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:32.963000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Simple Shopping Cart WordPress plugin before 5.2.6 does not escape some of its settings field values before outputting them on an admin settings page, allowing high-privilege users such as administrators to perform Stored Cross-Site Scripting attacks, which is notably impactful on multisite installations where administrators do not have the unfiltered_html capability.</p>
+  <a href="https://wpscan.com/vulnerability/d6ee7720-9c2d-48b3-b238-0da4fed398a3/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-17005</span><span class="badge badge-epss">EPSS 0.2%</span>
+  </div>
+  <h2>CVE-2026-17005</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:33.907000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Horizontal scrolling announcements WordPress plugin through 2.6 does not sanitise and escape one of its announcement settings before outputting it into an attribute context on the front end, allowing users granted access to the announcement management page (Contributor and above, once permitted) to perform Stored Cross-Site Scripting attacks that execute in the browser of anyone viewing the announcement.</p>
+  <a href="https://wpscan.com/vulnerability/e3973475-18c4-46a0-b0ca-24e4d2cd58ca/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-86817</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-86817</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:34.053000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The Five Star Business Profile and Schema WordPress plugin before 2.4.0 does not properly restrict the callbacks used to resolve schema field default values, allowing authenticated users with Author-level access and above to store input that discloses sensitive data, including other users&#x27; password hashes and arbitrary site option values, in public output readable by unauthenticated visitors.</p>
+  <a href="https://wpscan.com/vulnerability/2a400958-7ed8-4358-a46a-2b8e0716a771/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-104118</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-104118</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:31.933000+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The Razorpay for WooCommerce WordPress plugin before 4.8.8 does not perform ownership or authorization checks on a REST API route used during checkout, allowing unauthenticated attackers to modify the shipping information stored on arbitrary orders.</p>
+  <a href="https://wpscan.com/vulnerability/d94ebc87-c404-4b30-8291-26c4bc2eb63b/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-97332</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-97332</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:34.303000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The User Private Files  WordPress plugin before 2.2.0 does not properly protect its stored private files on multisite installations, where the rewrite rule it relies on to route file requests through its access check is never reached, allowing unauthenticated users to retrieve other users&#x27; private files directly.</p>
+  <a href="https://wpscan.com/vulnerability/d6a144b3-84e3-43eb-92d3-fd4505dd0e1c/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">NVD</span><span class="badge badge-default">CVE</span><span class="badge badge-cve">CVE-2026-93549</span><span class="badge badge-epss">EPSS 0.1%</span>
+  </div>
+  <h2>CVE-2026-93549</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T00:16:34.180000+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">The CoCart  WordPress plugin before 4.9.7 does not scope its REST API authentication filter to its own endpoints, which disables WordPress core&#x27;s REST nonce protection for every route, allowing an attacker to perform a cross-site request forgery attack that creates a new administrator account using a logged-in administrator&#x27;s session.</p>
+  <a href="https://wpscan.com/vulnerability/77f413f6-8753-4c83-8623-00ad7a1dcaff/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>China-Aligned TA419 Targets U.S. AI Policy Experts With Microsoft AitM Phishing</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T07:20:32+00:00</div>
+    <div><strong>Reasons:</strong> keyword: credential</div>
+  </div>
+  <p class="summary">A new China-nexus cyber espionage group known as TA419 has been attributed to multiple credential phishing campaigns targeting artificial intelligence (AI) experts working for U.S. think tanks, universities, and legal sector organizations. The campaigns have impersonated prominent economists and AI policymakers, as well as a prominent Anthropic employee, to single out an AI policy expert at a</p>
+  <a href="https://thehackernews.com/2026/10/china-aligned-ta419-targets-us-ai.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">THE HACKER NEWS</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>ShinyHunters Suspect Rey Reportedly Detained in Jordan, Helping FBI Identify Group Members</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T07:22:05+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">A suspected member of the ShinyHunters digital extortion group, who goes by the online alias &quot;Rey,&quot; has been allegedly detained by authorities in Jordan, Reuters reported, citing three people familiar with the matter. Rey, whose real name is Saif ‌al-Din Khader, is said to have been brought into custody on September 29, 2026, cooperating with the U.S. Federal Bureau of Investigation (FBI) and</p>
+  <a href="https://thehackernews.com/2026/10/shinyhunters-suspect-rey-reportedly.html" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Anthropic asks Claude users to share voice data for AI model training</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T10:53:21+00:00</div>
+    <div><strong>Reasons:</strong> collected</div>
+  </div>
+  <p class="summary">Anthropic has started asking Claude users to voluntarily share their voice conversations to help train and improve its AI models. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/artificial-intelligence/anthropic-asks-claude-users-to-share-voice-data-for-ai-model-training/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">SECURITYWEEK</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Trump Names National Intelligence Director Jay Clayton to Lead a New Federal AI Task Force</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T14:57:25+00:00</div>
+    <div><strong>Reasons:</strong> RCE indicator</div>
+  </div>
+  <p class="summary">The announcement comes after Trump hosted top executives of AI companies at the White House last week. The post Trump Names National Intelligence Director Jay Clayton to Lead a New Federal AI Task Force appeared first on SecurityWeek .</p>
+  <a href="https://www.securityweek.com/trump-names-national-intelligence-director-jay-clayton-to-lead-a-new-federal-ai-task-force/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+<article class="card">
+  <div class="badge-container">
+    <span class="badge badge-default">BLEEPINGCOMPUTER</span><span class="badge badge-default">NEWS</span>
+  </div>
+  <h2>Citrix patches NetScaler SAML zero-day exploited in attacks</h2>
+  <div class="card-meta">
+    <div><strong>Published:</strong> 2026-10-04T21:58:01+00:00</div>
+    <div><strong>Reasons:</strong> keyword: zero-day, RCE indicator, active exploitation signal</div>
+  </div>
+  <p class="summary">Citrix has released emergency updates for a new NetScaler denial-of-service vulnerability tracked as CVE-2026-88779 that has been exploited in zero-day attacks, with researchers investigating whether it can also be exploited for remote code execution. [...]</p>
+  <a href="https://www.bleepingcomputer.com/news/security/citrix-patches-netscaler-saml-zero-day-exploited-in-attacks/" target="_blank" rel="noopener noreferrer" class="source-link">
+    Open Source Link
+    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+  </a>
+</article>
+    </div>
+  </main>
+</body>
+</html>
